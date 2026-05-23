@@ -1,0 +1,107 @@
+/* Styling for the Assigned Deliveries Page */
+.status-card {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.status-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.status-header .status-icon {
+    font-size: 1.8rem;
+}
+
+.status-card h4 {
+    font-size: 1.4rem;
+    font-weight: bold;
+    margin: 0;
+}
+
+.shipment-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-bottom: 1px solid #f1f1f1;
+}
+
+.shipment-item:last-child {
+    border-bottom: none;
+}
+
+.status-chip {
+    padding: 8px 12px;
+    border-radius: 20px;
+    color: white;
+    font-weight: bold;
+    display: inline-block;
+}
+
+.status-pending {
+    background-color: #f4b400;
+}
+
+.status-in-transit {
+    background-color: #1e88e5;
+}
+
+.status-delivered {
+    background-color: #43a047;
+}
+
+.status-picked-up {
+    background-color: #ff7043;
+}
+
+.status-chip {
+    font-size: 0.9rem;
+}
+
+/* Status Card Flexbox Layout */
+.status-card>.shipment-item {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.shipment-item p {
+    font-size: 0.9rem;
+    color: #777;
+}
+
+.page-wrapper {
+    margin: 0 auto;
+    max-width: 1200px;
+}
+
+.hero-text h2 {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.hero-text p {
+    color: #555;
+    font-size: 1rem;
+}
+
+.card-header {
+    margin-bottom: 20px;
+}
+
+.card-header h3 {
+    font-size: 1.5rem;
+    font-weight: bold;
+}

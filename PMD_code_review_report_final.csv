@@ -1,0 +1,2 @@
+"Problem","Package","File","Priority","Line","Description","Rule set","Rule"
+"1","com.shiptrack","C:\Users\hamad\Desktop\UNI\Third year\Second semester\Secure coding\Final Assignment\Code\shiptrack\src\main\java\com\shiptrack\ShiptrackApplication.java","3","7","All methods are static. Consider adding a private no-args constructor to prevent instantiation.","Design","UseUtilityClass"

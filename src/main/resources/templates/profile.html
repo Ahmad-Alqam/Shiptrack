@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ShipTrack - Profile</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/profile.css">
+</head>
+
+<body>
+    <div class="page-wrapper">
+
+        <section class="brand-panel">
+            <div class="brand-content">
+                <div class="logo-box">
+                    <div class="logo-cube">
+                        <div class="cube-top"></div>
+                        <div class="cube-front"></div>
+                        <div class="cube-side"></div>
+                        <span class="logo-letter">ST</span>
+                    </div>
+                    <div class="logo-text">
+                        <h1>ShipTrack</h1>
+                        <p>Secure package delivery system</p>
+                    </div>
+                </div>
+
+                <div class="hero-text">
+                    <h2>Manage your account profile</h2>
+                    <p>
+                        Review and update your account details securely.
+                        This page adjusts automatically based on your role in the system.
+                    </p>
+                </div>
+
+                <div class="feature-list">
+                    <div class="feature-card">
+                        <span class="feature-icon">👤</span>
+                        <div>
+                            <h3>Account Details</h3>
+                            <p>View your name, username, role, and contact information.</p>
+                        </div>
+                    </div>
+
+                    <div class="feature-card">
+                        <span class="feature-icon">🔐</span>
+                        <div>
+                            <h3>Protected Access</h3>
+                            <p>Only the logged-in user can access and update this profile.</p>
+                        </div>
+                    </div>
+
+                    <div class="feature-card">
+                        <span class="feature-icon">⚙️</span>
+                        <div>
+                            <h3>Dynamic Role View</h3>
+                            <p>Customer, dispatcher, driver, and admin all use one smart page.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="form-panel">
+            <div class="form-card profile-card">
+
+                <form id="profileForm" action="/profile" method="post" novalidate>
+                    <div class="form-header">
+                        <h2>My Profile</h2>
+                        <p th:text="'Logged in as: ' + ${roleLabel}"></p>
+                    </div>
+
+                    <div th:if="${error}" class="server-message error-message-box" th:text="${error}"></div>
+                    <div th:if="${success}" class="server-message success-message-box" th:text="${success}"></div>
+
+                    <div class="profile-badge-box">
+                        <div class="profile-badge">
+                            <span class="profile-badge-label">Role</span>
+                            <strong th:text="${roleLabel}"></strong>
+                        </div>
+
+                        <div class="profile-badge">
+                            <span class="profile-badge-label">Account Status</span>
+                            <strong th:text="${user.locked} ? 'Locked' : 'Active'"></strong>
+                        </div>
+                    </div>
+
+                    <div class="form-grid">
+                        <div class="input-group">
+                            <label for="fullName">Full Name</label>
+                            <input type="text" id="fullName" name="fullName" th:value="${user.fullName}">
+                            <small class="error-message" id="fullNameError"></small>
+                        </div>
+
+                        <div class="input-group">
+                            <label for="username">Username</label>
+                            <input type="text" id="username" name="username" th:value="${user.username}">
+                            <small class="error-message" id="usernameError"></small>
+                        </div>
+
+                        <div class="input-group">
+                            <label for="contactNumber">Contact Number</label>
+                            <input type="text" id="contactNumber" name="contactNumber" th:value="${user.contactNumber}">
+                            <small class="error-message" id="contactNumberError"></small>
+                        </div>
+
+                        <div class="input-group">
+                            <label for="idNumber">ID Number</label>
+                            <input type="text" id="idNumber" th:value="${user.idNumber}" readonly
+                                class="readonly-input">
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="submit" class="primary-btn">Save Changes</button>
+                    </div>
+
+                    <div id="formStatus" class="form-status"></div>
+
+                    <div class="page-link-box">
+                        <span>Go back to your workspace?</span>
+                        <a href="/">Dashboard</a>
+                    </div>
+                </form>
+
+            </div>
+        </section>
+
+    </div>
+
+    <script src="/js/profile.js"></script>
+</body>
+
+</html>

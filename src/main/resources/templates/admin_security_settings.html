@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ShipTrack - Security Settings</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/register.css">
+</head>
+
+<body>
+    <div class="page-wrapper">
+
+        <section class="brand-panel">
+            <div class="brand-content">
+                <div class="logo-box">
+                    <div class="logo-cube">
+                        <div class="cube-top"></div>
+                        <div class="cube-front"></div>
+                        <div class="cube-side"></div>
+                        <span class="logo-letter">ST</span>
+                    </div>
+
+                    <div class="logo-text">
+                        <h1>ShipTrack</h1>
+                        <p>Admin Security Settings</p>
+                    </div>
+                </div>
+
+                <div class="hero-text">
+                    <h2>Configure system security rules</h2>
+                    <p>
+                        Define password strength requirements and login attempt limits
+                        to protect all ShipTrack user accounts.
+                    </p>
+                </div>
+
+                <div class="feature-list">
+                    <div class="feature-card">
+                        <span class="feature-icon">🔐</span>
+                        <div>
+                            <h3>Password Strength</h3>
+                            <p>Control minimum length and required character types.</p>
+                        </div>
+                    </div>
+
+                    <div class="feature-card">
+                        <span class="feature-icon">🚫</span>
+                        <div>
+                            <h3>Login Protection</h3>
+                            <p>Limit failed login attempts before account lockout.</p>
+                        </div>
+                    </div>
+
+                    <div class="feature-card">
+                        <span class="feature-icon">🛡️</span>
+                        <div>
+                            <h3>Secure Accounts</h3>
+                            <p>Apply policy rules when new users are created.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="form-panel">
+            <div class="form-card">
+
+                <form action="/admin/setPasswordStrength" method="post">
+
+                    <div class="form-header">
+                        <h2>Security Settings</h2>
+                        <p>Set password policy and login protection rules.</p>
+                    </div>
+
+                    <div th:if="${error}" class="server-message error-message-box" th:text="${error}"></div>
+                    <div th:if="${success}" class="server-message success-message-box" th:text="${success}"></div>
+
+                    <div class="security-policy-grid">
+
+                        <div class="security-policy-box">
+                            <span>🔢</span>
+                            <div class="input-group">
+                                <label>Minimum Password Length</label>
+                                <input type="number" name="minLength" min="1"
+                                    th:value="${policy != null ? policy.minLength : 8}" required>
+                            </div>
+                        </div>
+
+                        <div class="security-policy-box">
+                            <span>🔠</span>
+                            <div class="input-group">
+                                <label>Minimum Uppercase Letters</label>
+                                <input type="number" name="minUpperCase" min="0"
+                                    th:value="${policy != null ? policy.minUpperCase : 1}" required>
+                            </div>
+                        </div>
+
+                        <div class="security-policy-box">
+                            <span>🔡</span>
+                            <div class="input-group">
+                                <label>Minimum Lowercase Letters</label>
+                                <input type="number" name="minLowerCase" min="0"
+                                    th:value="${policy != null ? policy.minLowerCase : 1}" required>
+                            </div>
+                        </div>
+
+                        <div class="security-policy-box">
+                            <span>🔢</span>
+                            <div class="input-group">
+                                <label>Minimum Digits</label>
+                                <input type="number" name="minDigit" min="0"
+                                    th:value="${policy != null ? policy.minDigit : 1}" required>
+                            </div>
+                        </div>
+
+                        <div class="security-policy-box">
+                            <span>✨</span>
+                            <div class="input-group">
+                                <label>Minimum Special Characters</label>
+                                <input type="number" name="minSpecialChars" min="0"
+                                    th:value="${policy != null ? policy.minSpecialChars : 1}" required>
+                            </div>
+                        </div>
+
+                        <div class="security-policy-box">
+                            <span>🚫</span>
+                            <div class="input-group">
+                                <label>Maximum Login Attempts</label>
+                                <input type="number" name="maxLoginAttempts" min="1"
+                                    th:value="${policy != null ? policy.maxLoginAttempts : 5}" required>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="submit" class="primary-btn">Save Security Settings</button>
+                    </div>
+                </form>
+
+                <div class="page-link-box">
+                    <span>Need to go back?</span>
+                    <a href="/admin/dashboard">Go to Dashboard</a>
+                </div>
+
+            </div>
+        </section>
+
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ShipTrack - Create Shipment</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/shipment.css">
+</head>
+
+<body>
+    <div class="page-wrapper">
+
+        <section class="brand-panel">
+            <div class="brand-content">
+                <div class="logo-box">
+                    <div class="logo-cube">
+                        <div class="cube-top"></div>
+                        <div class="cube-front"></div>
+                        <div class="cube-side"></div>
+                        <span class="logo-letter">ST</span>
+                    </div>
+                    <div class="logo-text">
+                        <h1>ShipTrack</h1>
+                        <p>Secure package delivery system</p>
+                    </div>
+                </div>
+
+                <div class="hero-text">
+                    <h2>Create a new shipment request</h2>
+                    <p>
+                        Submit your package details, pickup address, and delivery
+                        destination to start the shipment process securely.
+                    </p>
+                </div>
+
+                <div class="feature-list">
+                    <div class="feature-card">
+                        <span class="feature-icon">📦</span>
+                        <div>
+                            <h3>Fast Submission</h3>
+                            <p>Create shipment requests in a few simple steps.</p>
+                        </div>
+                    </div>
+
+                    <div class="feature-card">
+                        <span class="feature-icon">📍</span>
+                        <div>
+                            <h3>Address Tracking</h3>
+                            <p>Store pickup and delivery information accurately.</p>
+                        </div>
+                    </div>
+
+                    <div class="feature-card">
+                        <span class="feature-icon">🔒</span>
+                        <div>
+                            <h3>Secure Handling</h3>
+                            <p>Your shipment data is processed through the protected backend.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="form-panel">
+            <div class="form-card shipment-card">
+
+                <form id="shipmentForm" action="/customer/create-shipment" method="post" novalidate>
+                    <div class="form-header">
+                        <h2>Create Shipment</h2>
+                        <p>Fill in shipment details to submit your request.</p>
+                    </div>
+
+                    <div th:if="${error}" class="server-message error-message-box" th:text="${error}"></div>
+                    <div th:if="${success}" class="server-message success-message-box" th:text="${success}"></div>
+
+                    <div class="form-grid">
+                        <div class="input-group">
+                            <label for="pickupAddress">Pickup Address</label>
+                            <input type="text" id="pickupAddress" name="pickupAddress"
+                                placeholder="Enter pickup address">
+                            <small class="error-message" id="pickupAddressError"></small>
+                        </div>
+
+                        <div class="input-group">
+                            <label for="deliveryAddress">Delivery Address</label>
+                            <input type="text" id="deliveryAddress" name="deliveryAddress"
+                                placeholder="Enter delivery address">
+                            <small class="error-message" id="deliveryAddressError"></small>
+                        </div>
+
+                        <div class="input-group">
+                            <label for="packageType">Package Type</label>
+                            <input type="text" id="packageType" name="packageType"
+                                placeholder="e.g. Documents, Electronics">
+                            <small class="error-message" id="packageTypeError"></small>
+                        </div>
+
+                        <div class="input-group">
+                            <label for="packageWeight">Package Weight (kg)</label>
+                            <input type="number" step="0.1" id="packageWeight" name="packageWeight"
+                                placeholder="Enter weight">
+                            <small class="error-message" id="packageWeightError"></small>
+                        </div>
+                    </div>
+
+                    <div class="input-group full-width-group">
+                        <label for="notes">Notes</label>
+                        <textarea id="notes" name="notes" rows="4"
+                            placeholder="Optional notes about the shipment"></textarea>
+                        <small class="error-message" id="notesError"></small>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="submit" class="primary-btn">Submit Shipment</button>
+                    </div>
+
+                    <div id="formStatus" class="form-status"></div>
+
+                    <div class="page-link-box">
+                        <span>Need to go back?</span>
+                        <a href="/customer/dashboard">Customer Dashboard</a>
+                    </div>
+                </form>
+
+            </div>
+        </section>
+
+    </div>
+
+    <script src="/js/shipment.js"></script>
+</body>
+
+</html>

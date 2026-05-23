@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ShipTrack - Dispatcher Dashboard</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/dashboard.css">
+</head>
+
+<body class="dashboard-body">
+
+    <div class="dashboard-layout">
+
+        <aside class="sidebar">
+            <div class="sidebar-brand">
+                <div class="logo-cube small-logo">
+                    <div class="cube-top"></div>
+                    <div class="cube-front"></div>
+                    <div class="cube-side"></div>
+                    <span class="logo-letter">ST</span>
+                </div>
+
+                <div>
+                    <h2>ShipTrack</h2>
+                    <p>Dispatcher Portal</p>
+                </div>
+            </div>
+
+            <nav class="sidebar-nav">
+                <a href="/dispatcher/dashboard" class="nav-item active">Dashboard</a>
+                <a href="/dispatcher/assign-shipment" class="nav-item">Assign Deliveries</a>
+                <a href="/dispatcher/update-status" class="nav-item">Update Status</a>
+                <a href="/profile" class="nav-item">Personnel Info</a>
+                <a href="/logout" class="nav-item logout-link">Logout</a>
+            </nav>
+
+            <div class="sidebar-card">
+                <h3>Operations Note</h3>
+                <p>
+                    Assign drivers carefully and keep shipment statuses updated
+                    to maintain accurate delivery flow.
+                </p>
+            </div>
+        </aside>
+
+        <main class="dashboard-main">
+            <header class="dashboard-header">
+                <div>
+                    <p class="dashboard-label">Dispatcher Dashboard</p>
+                    <h1 th:text="'Welcome back, ' + ${loggedInUser.fullName}">Welcome back, Dispatcher</h1>
+                    <p class="dashboard-subtitle">
+                        Manage delivery assignments, monitor shipment flow,
+                        and coordinate logistics operations efficiently.
+                    </p>
+                </div>
+
+                <div class="header-badge">
+                    <span class="badge-dot"></span>
+                    Operations Active
+                </div>
+            </header>
+
+            <section class="stats-grid">
+                <article class="stat-card">
+                    <div class="stat-icon">📋</div>
+                    <div class="stat-info">
+                        <p>Pending Requests</p>
+                        <h3 th:text="${pendingRequests}">0</h3>
+                        <span>Awaiting assignment</span>
+                    </div>
+                </article>
+
+                <article class="stat-card">
+                    <div class="stat-icon">🚚</div>
+                    <div class="stat-info">
+                        <p>Assigned Deliveries</p>
+                        <h3 th:text="${assignedDeliveries}">0</h3>
+                        <span>Currently assigned</span>
+                    </div>
+                </article>
+
+                <article class="stat-card">
+                    <div class="stat-icon">✅</div>
+                    <div class="stat-info">
+                        <p>Delivered Today</p>
+                        <h3 th:text="${deliveredToday}">0</h3>
+                        <span>Completed today</span>
+                    </div>
+                </article>
+
+                <article class="stat-card">
+                    <div class="stat-icon">👷</div>
+                    <div class="stat-info">
+                        <p>Available Drivers</p>
+                        <h3 th:text="${availableDrivers}">0</h3>
+                        <span>Ready for new tasks</span>
+                    </div>
+                </article>
+            </section>
+
+            <section class="content-grid">
+                <div class="panel-card">
+                    <div class="panel-header">
+                        <h2>Quick Actions</h2>
+                        <p>Handle the most common dispatcher tasks.</p>
+                    </div>
+
+                    <div class="action-grid">
+                        <a href="/dispatcher/assign-shipment" class="action-card">
+                            <div class="action-icon">📝</div>
+                            <h3>Assign Delivery</h3>
+                            <p>Assign pending shipments to drivers.</p>
+                        </a>
+
+                        <a href="/dispatcher/update-status" class="action-card">
+                            <div class="action-icon">🔄</div>
+                            <h3>Update Status</h3>
+                            <p>Change shipment delivery state.</p>
+                        </a>
+
+                        <a href="/profile" class="action-card">
+                            <div class="action-icon">👤</div>
+                            <h3>Personnel Info</h3>
+                            <p>View or update dispatcher profile data.</p>
+                        </a>
+
+                        <a href="/logout" class="action-card">
+                            <div class="action-icon">↩</div>
+                            <h3>Logout</h3>
+                            <p>Exit the system safely.</p>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="panel-card">
+                    <div class="panel-header">
+                        <h2>Recent Assignments</h2>
+                        <p>Latest delivery operations summary.</p>
+                    </div>
+
+                    <div class="shipment-list">
+
+                        <div th:if="${#lists.isEmpty(recentAssignments)}" class="shipment-item">
+                            <div>
+                                <h4>No Assignments Yet</h4>
+                                <p>Assigned shipments will appear here.</p>
+                            </div>
+                            <span class="status-chip status-pending">Empty</span>
+                        </div>
+
+                        <div th:each="shipment : ${recentAssignments}" class="shipment-item">
+                            <div>
+                                <h4 th:text="${shipment.trackingNumber}">ST-000000</h4>
+                                <p th:text="${shipment.pickupAddress + ' → ' + shipment.deliveryAddress}">From → To</p>
+                            </div>
+
+                            <span class="status-chip" th:classappend="${shipment.status.name() == 'PENDING'} ? ' status-pending' :
+                              (${shipment.status.name() == 'ASSIGNED'} ? ' status-assigned' :
+                              (${shipment.status.name() == 'PICKED_UP'} ? ' status-picked' :
+                              (${shipment.status.name() == 'IN_TRANSIT'} ? ' status-transit' :
+                              (${shipment.status.name() == 'DELIVERED'} ? ' status-delivered' : ''))))"
+                                th:text="${shipment.status}">
+                                STATUS
+                            </span>
+                        </div>
+
+                    </div>
+                </div>
+            </section>
+        </main>
+
+    </div>
+
+</body>
+
+</html>

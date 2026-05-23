@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ShipTrack - Customer Registration</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/register.css">
+</head>
+
+<body>
+    <div class="page-wrapper">
+
+        <section class="brand-panel">
+            <div class="brand-content">
+                <div class="logo-box">
+                    <div class="logo-cube">
+                        <div class="cube-top"></div>
+                        <div class="cube-front"></div>
+                        <div class="cube-side"></div>
+                        <span class="logo-letter">ST</span>
+                    </div>
+                    <div class="logo-text">
+                        <h1>ShipTrack</h1>
+                        <p>Secure package delivery system</p>
+                    </div>
+                </div>
+
+                <div class="hero-text">
+                    <h2>Fast shipping starts with smart registration</h2>
+                    <p>
+                        Create your ShipTrack account to request shipments,
+                        monitor package status, and manage your delivery data
+                        in one secure place.
+                    </p>
+                </div>
+
+                <div class="feature-list">
+                    <div class="feature-card">
+                        <span class="feature-icon">📦</span>
+                        <div>
+                            <h3>Shipment Requests</h3>
+                            <p>Create and manage package requests easily.</p>
+                        </div>
+                    </div>
+
+                    <div class="feature-card">
+                        <span class="feature-icon">🚚</span>
+                        <div>
+                            <h3>Live Delivery Workflow</h3>
+                            <p>Track delivery progress from request to arrival.</p>
+                        </div>
+                    </div>
+
+                    <div class="feature-card">
+                        <span class="feature-icon">🔐</span>
+                        <div>
+                            <h3>Secure Access</h3>
+                            <p>Built for secure coding and controlled system access.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="form-panel">
+            <div class="form-card">
+                <form id="registerForm" action="/register/customer" method="post" novalidate>
+                    <div class="form-header">
+
+                        <h2>Create Customer Account</h2>
+                        <p>Fill in your information to join ShipTrack.</p>
+                    </div>
+
+                    <div th:if="${error}" class="server-message error-message-box" th:text="${error}"></div>
+                    <div th:if="${success}" class="server-message success-message-box" th:text="${success}"></div>
+
+                    <div class="form-grid">
+                        <div class="input-group">
+                            <label for="fullName">Full Name</label>
+                            <input type="text" id="fullName" name="fullName" placeholder="Enter your full name">
+                            <small class="error-message" id="fullNameError"></small>
+                        </div>
+
+                        <div class="input-group">
+                            <label for="idNumber">ID Number</label>
+                            <input type="text" id="idNumber" name="idNumber" placeholder="Enter your ID number">
+                            <small class="error-message" id="idNumberError"></small>
+                        </div>
+
+                        <div class="input-group">
+                            <label for="contactNumber">Contact Number</label>
+                            <input type="text" id="contactNumber" name="contactNumber"
+                                placeholder="Enter your contact number">
+                            <small class="error-message" id="contactNumberError"></small>
+                        </div>
+
+                        <div class="input-group">
+                            <label for="username">Username</label>
+                            <input type="text" id="username" name="username" placeholder="Choose a username">
+                            <small class="error-message" id="usernameError"></small>
+                        </div>
+
+                        <div class="input-group password-group">
+                            <label for="password">Password</label>
+                            <div class="password-wrapper">
+                                <input type="password" id="password" name="password" placeholder="Create a password">
+                                <button type="button" class="toggle-password" data-target="password">Show</button>
+                            </div>
+                            <small class="error-message" id="passwordError"></small>
+                        </div>
+
+                        <div class="input-group password-group">
+                            <label for="confirmPassword">Confirm Password</label>
+                            <div class="password-wrapper">
+                                <input type="password" id="confirmPassword" name="confirmPassword"
+                                    placeholder="Re-enter your password">
+                                <button type="button" class="toggle-password"
+                                    data-target="confirmPassword">Show</button>
+                            </div>
+                            <small class="error-message" id="confirmPasswordError"></small>
+                        </div>
+                    </div>
+
+                    <input type="hidden" id="minLengthPolicy" th:value="${policy != null ? policy.minLength : 8}">
+                    <input type="hidden" id="minUpperPolicy" th:value="${policy != null ? policy.minUpperCase : 1}">
+                    <input type="hidden" id="minLowerPolicy" th:value="${policy != null ? policy.minLowerCase : 1}">
+                    <input type="hidden" id="minDigitPolicy" th:value="${policy != null ? policy.minDigit : 1}">
+                    <input type="hidden" id="minSpecialPolicy"
+                        th:value="${policy != null ? policy.minSpecialChars : 1}">
+
+                    <div class="password-rules">
+                        <h4>Password Rules</h4>
+                        <ul>
+                            <li id="ruleLength">Minimum <span
+                                    th:text="${policy != null ? policy.minLength : 8}">8</span> characters</li>
+                            <li id="ruleUpper">At least <span
+                                    th:text="${policy != null ? policy.minUpperCase : 1}">1</span> uppercase letter(s)
+                            </li>
+                            <li id="ruleLower">At least <span
+                                    th:text="${policy != null ? policy.minLowerCase : 1}">1</span> lowercase letter(s)
+                            </li>
+                            <li id="ruleDigit">At least <span th:text="${policy != null ? policy.minDigit : 1}">1</span>
+                                digit(s)</li>
+                            <li id="ruleSpecial">At least <span
+                                    th:text="${policy != null ? policy.minSpecialChars : 1}">1</span> special
+                                character(s)</li>
+                        </ul>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="submit" class="primary-btn">Register Now</button>
+                    </div>
+
+                    <div id="formStatus" class="form-status"></div>
+                </form>
+                <div class="page-link-box">
+                    <span>Already have an account?</span>
+                    <a href="/login">Go to Login</a>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <script src="/js/register.js"></script>
+</body>
+
+</html>

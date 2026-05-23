@@ -1,0 +1,35 @@
+.form-card {
+    max-width: 500px;
+}
+
+.options-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    margin: 8px 0 20px;
+    flex-wrap: wrap;
+}
+
+.remember-me {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--text-soft);
+    font-size: 0.95rem;
+}
+
+.remember-me input {
+    accent-color: var(--primary-blue);
+}
+
+.forgot-link {
+    text-decoration: none;
+    color: var(--primary-blue);
+    font-weight: 700;
+    font-size: 0.94rem;
+}
+
+.forgot-link:hover {
+    text-decoration: underline;
+}

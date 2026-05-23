@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ShipTrack - Manage Users</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/dashboard.css">
+</head>
+
+<body class="dashboard-body">
+
+    <div class="dashboard-layout">
+
+        <aside class="sidebar">
+            <div class="sidebar-brand">
+                <div class="logo-cube small-logo">
+                    <div class="cube-top"></div>
+                    <div class="cube-front"></div>
+                    <div class="cube-side"></div>
+                    <span class="logo-letter">ST</span>
+                </div>
+
+                <div>
+                    <h2>ShipTrack</h2>
+                    <p>Admin Portal</p>
+                </div>
+            </div>
+
+            <nav class="sidebar-nav">
+                <a href="/admin/dashboard" class="nav-item">Dashboard</a>
+                <a href="/profile" class="nav-item">Profile</a>
+                <a href="/admin/create-dispatcher" class="nav-item">Create Dispatcher</a>
+                <a href="/admin/create-driver" class="nav-item">Create Driver</a>
+                <a href="/admin/manage-users" class="nav-item active">Manage Users</a>
+                <a href="/admin/security-settings" class="nav-item">Security Settings</a>
+                <a href="/logout" class="nav-item logout-link">Logout</a>
+            </nav>
+
+            <div class="sidebar-card">
+                <h3>User Control</h3>
+                <p>
+                    Review registered accounts and control access by locking,
+                    unlocking, or removing users.
+                </p>
+            </div>
+        </aside>
+
+        <main class="dashboard-main">
+
+            <header class="dashboard-header">
+                <div>
+                    <p class="dashboard-label">Admin Management</p>
+                    <h1>Manage Users</h1>
+                    <p class="dashboard-subtitle">
+                        Lock, unlock, review, or remove registered accounts.
+                    </p>
+                </div>
+
+                <div class="header-badge admin-badge">
+                    <span class="badge-dot"></span>
+                    User Control
+                </div>
+            </header>
+
+            <section class="panel-card">
+                <div class="panel-header">
+                    <h2>Registered Users</h2>
+                    <p>All current accounts stored in the ShipTrack database.</p>
+                </div>
+
+                <div class="shipment-list manage-users-list">
+                    <div class="shipment-item" th:each="user : ${users}">
+                        <div>
+                            <h4 th:text="${user.fullName}">Full Name</h4>
+                            <p>
+                                Username:
+                                <strong th:text="${user.username}">username</strong>
+                                |
+                                Role:
+                                <strong th:text="${user.role}">ROLE</strong>
+                            </p>
+                            <p>
+                                ID:
+                                <strong th:text="${user.idNumber}">0000</strong>
+                                |
+                                Contact:
+                                <strong th:text="${user.contactNumber}">0000000000</strong>
+                            </p>
+                        </div>
+
+                        <div>
+                            <span class="status-chip"
+                                th:classappend="${user.locked} ? ' status-pending' : ' status-delivered'"
+                                th:text="${user.locked} ? 'Locked' : 'Active'">
+                                Active
+                            </span>
+                        </div>
+
+                        <div class="actions-row">
+
+                            <form action="/admin/lockUnlockUser" method="post" th:if="${!user.locked}">
+                                <input type="hidden" name="userId" th:value="${user.id}">
+                                <input type="hidden" name="lock" value="true">
+                                <button type="submit" class="danger-btn">Lock</button>
+                            </form>
+
+                            <form action="/admin/lockUnlockUser" method="post" th:if="${user.locked}">
+                                <input type="hidden" name="userId" th:value="${user.id}">
+                                <input type="hidden" name="lock" value="false">
+                                <button type="submit" class="success-btn">Unlock</button>
+                            </form>
+
+                            <form action="/admin/removeUser" method="post">
+                                <input type="hidden" name="userId" th:value="${user.id}">
+                                <button type="submit" class="danger-btn">Remove</button>
+                            </form>
+
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+
+    </div>
+
+</body>
+
+</html>

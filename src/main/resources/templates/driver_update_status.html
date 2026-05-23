@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ShipTrack - Update Shipment Status</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/driver-update-status.css">
+</head>
+
+<body>
+    <div class="page-wrapper">
+        <section class="brand-panel">
+            <div class="brand-content">
+                <div class="logo-box">
+                    <div class="logo-cube">
+                        <div class="cube-top"></div>
+                        <div class="cube-front"></div>
+                        <div class="cube-side"></div>
+                        <span class="logo-letter">ST</span>
+                    </div>
+                    <div class="logo-text">
+                        <h1>ShipTrack</h1>
+                        <p>Update Shipment Status</p>
+                    </div>
+                </div>
+
+                <div class="hero-text">
+                    <h2>Update the status of your deliveries</h2>
+                    <p>Choose the current status for your assigned deliveries.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="form-panel">
+            <div class="form-card driver-form-card">
+                <form action="/driver/update-status" method="post">
+                    <div class="form-header">
+                        <h2>Update Status</h2>
+                        <p>Select a shipment and update its status.</p>
+                    </div>
+
+                    <div th:if="${error}" class="server-message error-message-box" th:text="${error}"></div>
+                    <div th:if="${success}" class="server-message success-message-box" th:text="${success}"></div>
+
+                    <div class="input-group">
+                        <label for="shipmentId">Shipment</label>
+                        <select id="shipmentId" name="shipmentId" class="input-box" required>
+                            <option value="">Select a shipment</option>
+                            <option th:each="shipment : ${assignedDeliveries}" th:value="${shipment.id}"
+                                th:text="${shipment.trackingNumber + ' | ' + shipment.status}">
+                            </option>
+                        </select>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="status">New Status</label>
+                        <select id="status" name="status" class="input-box" required>
+                            <option value="">Select status</option>
+                            <option value="PICKED_UP">Picked Up</option>
+                            <option value="IN_TRANSIT">In Transit</option>
+                            <option value="DELIVERED">Delivered</option>
+                        </select>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="submit" class="primary-btn">Update Status</button>
+                    </div>
+                </form>
+
+                <div class="page-link-box">
+                    <span>Need to go back?</span>
+                    <a href="/driver/dashboard">Driver Dashboard</a>
+                </div>
+            </div>
+        </section>
+    </div>
+</body>
+
+</html>

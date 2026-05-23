@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ShipTrack - Update Shipment Status</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/dispatcher-forms.css">
+</head>
+
+<body>
+    <div class="page-wrapper">
+
+        <section class="brand-panel">
+            <div class="brand-content">
+                <div class="logo-box">
+                    <div class="logo-cube">
+                        <div class="cube-top"></div>
+                        <div class="cube-front"></div>
+                        <div class="cube-side"></div>
+                        <span class="logo-letter">ST</span>
+                    </div>
+                    <div class="logo-text">
+                        <h1>ShipTrack</h1>
+                        <p>Dispatcher status control</p>
+                    </div>
+                </div>
+
+                <div class="hero-text">
+                    <h2>Update shipment status</h2>
+                    <p>
+                        Review shipments assigned through your workflow and update their current
+                        status when logistics progress changes.
+                    </p>
+                </div>
+
+                <div class="feature-list">
+                    <div class="feature-card">
+                        <span class="feature-icon">🔄</span>
+                        <div>
+                            <h3>Status Management</h3>
+                            <p>Change shipment state clearly and accurately.</p>
+                        </div>
+                    </div>
+
+                    <div class="feature-card">
+                        <span class="feature-icon">📦</span>
+                        <div>
+                            <h3>Tracked Workflow</h3>
+                            <p>Keep delivery records synchronized with operational updates.</p>
+                        </div>
+                    </div>
+
+                    <div class="feature-card">
+                        <span class="feature-icon">✅</span>
+                        <div>
+                            <h3>Delivery Progress</h3>
+                            <p>Move shipments forward through the system correctly.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="form-panel">
+            <div class="form-card dispatcher-form-card">
+
+                <form action="/dispatcher/update-status" method="post">
+                    <div class="form-header">
+                        <h2>Update Status</h2>
+                        <p>Select a shipment and choose the new status.</p>
+                    </div>
+
+                    <div th:if="${error}" class="server-message error-message-box" th:text="${error}"></div>
+                    <div th:if="${success}" class="server-message success-message-box" th:text="${success}"></div>
+
+                    <div class="input-group">
+                        <label for="shipmentId">Shipment</label>
+                        <select id="shipmentId" name="shipmentId" class="styled-select" required>
+                            <option value="">Select a shipment</option>
+                            <option th:each="shipment : ${shipments}" th:value="${shipment.id}"
+                                th:text="${shipment.trackingNumber + ' | ' + shipment.status}">
+                            </option>
+                        </select>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="status">New Status</label>
+                        <select id="status" name="status" class="styled-select" required>
+                            <option value="">Select status</option>
+                            <option value="ASSIGNED">ASSIGNED</option>
+                            <option value="PICKED_UP">PICKED_UP</option>
+                            <option value="IN_TRANSIT">IN_TRANSIT</option>
+                            <option value="DELIVERED">DELIVERED</option>
+                        </select>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="submit" class="primary-btn">Update Status</button>
+                    </div>
+
+                    <div class="page-link-box">
+                        <span>Need to go back?</span>
+                        <a href="/dispatcher/dashboard">Dispatcher Dashboard</a>
+                    </div>
+                </form>
+
+            </div>
+        </section>
+
+    </div>
+</body>
+
+</html>

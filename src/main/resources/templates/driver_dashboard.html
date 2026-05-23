@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ShipTrack - Driver Dashboard</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/dashboard.css">
+</head>
+
+<body class="dashboard-body">
+
+    <div class="dashboard-layout">
+
+        <aside class="sidebar">
+            <div class="sidebar-brand">
+                <div class="logo-cube small-logo">
+                    <div class="cube-top"></div>
+                    <div class="cube-front"></div>
+                    <div class="cube-side"></div>
+                    <span class="logo-letter">ST</span>
+                </div>
+
+                <div>
+                    <h2>ShipTrack</h2>
+                    <p>Driver Portal</p>
+                </div>
+            </div>
+
+            <nav class="sidebar-nav">
+                <a href="/driver/dashboard" class="nav-item active">Dashboard</a>
+                <a href="/driver/assigned-deliveries" class="nav-item">Assigned Deliveries</a>
+                <a href="/driver/update-status" class="nav-item">Update Status</a>
+                <a href="/profile" class="nav-item">Profile</a>
+                <a href="/logout" class="nav-item logout-link">Logout</a>
+            </nav>
+
+            <div class="sidebar-card">
+                <h3>Driver Note</h3>
+                <p>
+                    Update shipment status as soon as you pick up or deliver
+                    a package to keep tracking accurate.
+                </p>
+            </div>
+        </aside>
+
+        <main class="dashboard-main">
+            <header class="dashboard-header">
+                <div>
+                    <p class="dashboard-label">Driver Dashboard</p>
+                    <h1 th:text="'Welcome back, ' + ${loggedInUser.fullName}">Welcome back, Driver</h1>
+                    <p class="dashboard-subtitle">
+                        View assigned deliveries, update package progress,
+                        and manage your delivery workflow clearly and quickly.
+                    </p>
+                </div>
+
+                <div class="header-badge">
+                    <span class="badge-dot"></span>
+                    On Route
+                </div>
+            </header>
+
+            <section class="stats-grid">
+                <article class="stat-card">
+                    <div class="stat-icon">📦</div>
+                    <div class="stat-info">
+                        <p>Assigned Deliveries</p>
+                        <h3 th:text="${assignedCount}">0</h3>
+                        <span>Packages assigned to you</span>
+                    </div>
+                </article>
+
+                <article class="stat-card">
+                    <div class="stat-icon">📍</div>
+                    <div class="stat-info">
+                        <p>Picked Up</p>
+                        <h3 th:text="${pickedUpCount}">0</h3>
+                        <span>Collected from source</span>
+                    </div>
+                </article>
+
+                <article class="stat-card">
+                    <div class="stat-icon">🚚</div>
+                    <div class="stat-info">
+                        <p>In Transit</p>
+                        <h3 th:text="${inTransitCount}">0</h3>
+                        <span>Currently on delivery route</span>
+                    </div>
+                </article>
+
+                <article class="stat-card">
+                    <div class="stat-icon">✅</div>
+                    <div class="stat-info">
+                        <p>Delivered Today</p>
+                        <h3 th:text="${deliveredCount}">0</h3>
+                        <span>Completed successfully</span>
+                    </div>
+                </article>
+            </section>
+
+            <section class="content-grid">
+                <div class="panel-card">
+                    <div class="panel-header">
+                        <h2>Quick Actions</h2>
+                        <p>Access your delivery tasks faster.</p>
+                    </div>
+
+                    <div class="action-grid">
+                        <a href="/driver/assigned-deliveries" class="action-card">
+                            <div class="action-icon">📋</div>
+                            <h3>Assigned Deliveries</h3>
+                            <p>View all deliveries assigned to you.</p>
+                        </a>
+
+                        <a href="/driver/update-status" class="action-card">
+                            <div class="action-icon">🔄</div>
+                            <h3>Update Status</h3>
+                            <p>Mark shipment as picked up, in transit, or delivered.</p>
+                        </a>
+
+                        <a href="/logout" class="action-card">
+                            <div class="action-icon">↩</div>
+                            <h3>Logout</h3>
+                            <p>Exit your current session safely.</p>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="panel-card">
+                    <div class="panel-header">
+                        <h2>Current Deliveries</h2>
+                        <p>Latest shipment progress assigned to you.</p>
+                    </div>
+
+                    <div class="shipment-list">
+                        <div th:each="shipment : ${recentDeliveries}" class="shipment-item">
+                            <div>
+                                <h4 th:text="${shipment.trackingNumber}">ST-000000</h4>
+                                <p th:text="${shipment.pickupAddress + ' → ' + shipment.deliveryAddress}">From → To</p>
+                            </div>
+                            <span class="status-chip" th:classappend="${shipment.status.name() == 'PENDING'} ? ' status-pending' :
+                                (${shipment.status.name() == 'ASSIGNED'} ? ' status-assigned' :
+                                (${shipment.status.name() == 'PICKED_UP'} ? ' status-picked' :
+                                (${shipment.status.name() == 'IN_TRANSIT'} ? ' status-transit' :
+                                (${shipment.status.name() == 'DELIVERED'} ? ' status-delivered' : ''))))"
+                                th:text="${shipment.status}">
+                                STATUS
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+    </div>
+
+</body>
+
+</html>

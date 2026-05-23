@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ShipTrack - Create Dispatcher Account</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/register.css">
+</head>
+
+<style>
+    .error-message {
+        color: #dc2626;
+        font-size: 0.85rem;
+        font-weight: 600;
+        min-height: 18px;
+    }
+
+    .password-guidelines li.valid {
+        color: #16a34a;
+        font-weight: 800;
+    }
+
+    .password-guidelines li.valid::before {
+        content: "✓ ";
+    }
+
+    html,
+    body {
+        min-height: 100%;
+        height: auto;
+        overflow-y: auto;
+    }
+
+    .page-wrapper {
+        min-height: 100vh;
+        height: auto;
+        overflow: visible;
+        align-items: flex-start;
+        padding: 40px 48px;
+    }
+
+    .brand-panel,
+    .form-panel {
+        min-height: auto;
+        height: auto;
+    }
+
+    .form-panel {
+        align-items: flex-start;
+        padding-top: 0;
+        padding-bottom: 40px;
+    }
+
+    .form-card {
+        height: auto;
+        max-height: none;
+        overflow: visible;
+    }
+
+    .page-link-box {
+        margin-top: 18px;
+        padding-bottom: 10px;
+    }
+</style>
+
+<body>
+    <div class="page-wrapper">
+
+        <section class="brand-panel">
+            <div class="brand-content">
+                <div class="logo-box">
+                    <div class="logo-cube">
+                        <div class="cube-top"></div>
+                        <div class="cube-front"></div>
+                        <div class="cube-side"></div>
+                        <span class="logo-letter">ST</span>
+                    </div>
+                    <div class="logo-text">
+                        <h1>ShipTrack</h1>
+                        <p>Secure package delivery system</p>
+                    </div>
+                </div>
+
+                <div class="hero-text">
+                    <h2>Create a new dispatcher account</h2>
+                    <p>Add dispatcher details securely so they can manage deliveries and update shipment status.</p>
+                </div>
+
+                <div class="feature-list">
+                    <div class="feature-card">
+                        <span class="feature-icon">📦</span>
+                        <div>
+                            <h3>Shipment Requests</h3>
+                            <p>Create and manage package requests easily.</p>
+                        </div>
+                    </div>
+
+                    <div class="feature-card">
+                        <span class="feature-icon">🚚</span>
+                        <div>
+                            <h3>Live Delivery Workflow</h3>
+                            <p>Track delivery progress from request to arrival.</p>
+                        </div>
+                    </div>
+
+                    <div class="feature-card">
+                        <span class="feature-icon">🔐</span>
+                        <div>
+                            <h3>Secure Access</h3>
+                            <p>Built for secure coding and controlled system access.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="form-panel">
+            <div class="form-card">
+                <form action="/admin/create-dispatcher" method="post">
+
+                    <div class="form-header">
+                        <h2>Create Dispatcher</h2>
+                        <p>Register a new dispatcher account securely.</p>
+                    </div>
+
+                    <div th:if="${error}" class="server-message error-message-box" th:text="${error}"></div>
+                    <div th:if="${success}" class="server-message success-message-box" th:text="${success}"></div>
+
+                    <div class="form-grid-2">
+                        <div class="input-group">
+                            <label>Full Name</label>
+                            <input type="text" name="fullName" placeholder="Enter full name" required>
+                        </div>
+
+                        <div class="input-group">
+                            <label>ID Number</label>
+                            <input type="text" name="idNumber" placeholder="Enter ID number" required>
+                        </div>
+
+                        <div class="input-group">
+                            <label>Contact Number</label>
+                            <input type="text" name="contactNumber" placeholder="Enter contact number" required>
+                        </div>
+
+                        <div class="input-group">
+                            <label>Username</label>
+                            <input type="text" name="username" placeholder="Enter username" required>
+                        </div>
+
+                        <div class="input-group password-group full-row">
+                            <label>Password</label>
+
+                            <div class="password-wrapper">
+                                <input type="password" id="password" name="password" placeholder="Enter password"
+                                    required>
+                                <button type="button" class="toggle-password" id="togglePassword">Show</button>
+                            </div>
+
+                            <small id="passwordError" class="error-message"></small>
+
+                        </div>
+                    </div>
+
+                    <input type="hidden" id="minLengthPolicy" th:value="${policy != null ? policy.minLength : 8}">
+                    <input type="hidden" id="minUpperPolicy" th:value="${policy != null ? policy.minUpperCase : 1}">
+                    <input type="hidden" id="minLowerPolicy" th:value="${policy != null ? policy.minLowerCase : 1}">
+                    <input type="hidden" id="minDigitPolicy" th:value="${policy != null ? policy.minDigit : 1}">
+                    <input type="hidden" id="minSpecialPolicy"
+                        th:value="${policy != null ? policy.minSpecialChars : 1}">
+
+                    <div class="password-guidelines">
+                        <p>Password must follow the current security policy:</p>
+                        <ul>
+                            <li id="ruleLength">Minimum <span
+                                    th:text="${policy != null ? policy.minLength : 8}">8</span> characters</li>
+                            <li id="ruleUpper">At least <span
+                                    th:text="${policy != null ? policy.minUpperCase : 1}">1</span> uppercase letter(s)
+                            </li>
+                            <li id="ruleLower">At least <span
+                                    th:text="${policy != null ? policy.minLowerCase : 1}">1</span> lowercase letter(s)
+                            </li>
+                            <li id="ruleDigit">At least <span th:text="${policy != null ? policy.minDigit : 1}">1</span>
+                                digit(s)</li>
+                            <li id="ruleSpecial">At least <span
+                                    th:text="${policy != null ? policy.minSpecialChars : 1}">1</span> special
+                                character(s)</li>
+                        </ul>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="submit" class="primary-btn">Create Dispatcher</button>
+                    </div>
+                </form>
+
+                <div class="page-link-box">
+                    <span>Need to go back?</span>
+                    <a href="/admin/dashboard">Go to Dashboard</a>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <script>
+        const passwordInput = document.getElementById("password");
+        const togglePassword = document.getElementById("togglePassword");
+        const passwordError = document.getElementById("passwordError");
+
+        const minLength = parseInt(document.getElementById("minLengthPolicy").value || "8");
+        const minUpper = parseInt(document.getElementById("minUpperPolicy").value || "1");
+        const minLower = parseInt(document.getElementById("minLowerPolicy").value || "1");
+        const minDigit = parseInt(document.getElementById("minDigitPolicy").value || "1");
+        const minSpecial = parseInt(document.getElementById("minSpecialPolicy").value || "1");
+
+        const ruleLength = document.getElementById("ruleLength");
+        const ruleUpper = document.getElementById("ruleUpper");
+        const ruleLower = document.getElementById("ruleLower");
+        const ruleDigit = document.getElementById("ruleDigit");
+        const ruleSpecial = document.getElementById("ruleSpecial");
+
+        function toggleRule(element, isValid) {
+            if (isValid) {
+                element.classList.add("valid");
+            } else {
+                element.classList.remove("valid");
+            }
+        }
+
+        function updatePasswordRules() {
+            const value = passwordInput.value;
+
+            const upperCount = (value.match(/[A-Z]/g) || []).length;
+            const lowerCount = (value.match(/[a-z]/g) || []).length;
+            const digitCount = (value.match(/\d/g) || []).length;
+            const specialCount = (value.match(/[^A-Za-z0-9]/g) || []).length;
+
+            const hasLength = value.length >= minLength;
+            const hasUpper = upperCount >= minUpper;
+            const hasLower = lowerCount >= minLower;
+            const hasDigit = digitCount >= minDigit;
+            const hasSpecial = specialCount >= minSpecial;
+
+            toggleRule(ruleLength, hasLength);
+            toggleRule(ruleUpper, hasUpper);
+            toggleRule(ruleLower, hasLower);
+            toggleRule(ruleDigit, hasDigit);
+            toggleRule(ruleSpecial, hasSpecial);
+
+            return hasLength && hasUpper && hasLower && hasDigit && hasSpecial;
+        }
+
+        function validatePassword() {
+            if (passwordInput.value === "") {
+                passwordError.textContent = "Password is required.";
+                passwordInput.classList.add("input-error");
+                return false;
+            }
+
+            if (!updatePasswordRules()) {
+                passwordError.textContent = "Password does not meet the required rules.";
+                passwordInput.classList.add("input-error");
+                return false;
+            }
+
+            passwordError.textContent = "";
+            passwordInput.classList.remove("input-error");
+            return true;
+        }
+
+        togglePassword.addEventListener("click", function () {
+            if (passwordInput.type === "password") {
+                passwordInput.type = "text";
+                togglePassword.textContent = "Hide";
+            } else {
+                passwordInput.type = "password";
+                togglePassword.textContent = "Show";
+            }
+        });
+
+        passwordInput.addEventListener("input", function () {
+            updatePasswordRules();
+            passwordError.textContent = "";
+            passwordInput.classList.remove("input-error");
+        });
+
+        document.querySelector("form").addEventListener("submit", function (event) {
+            if (!validatePassword()) {
+                event.preventDefault();
+            }
+        });
+    </script>
+
+</body>
+
+</html>

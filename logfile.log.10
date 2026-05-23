@@ -1,0 +1,100 @@
+Apr 25, 2026 3:08:41 PM com.shiptrack.util.MyLogger writeToLog
+INFO: Successful login for username: admin
+Apr 25, 2026 3:08:41 PM com.shiptrack.util.MyLogger writeToLog
+INFO: Admin accessed dashboard
+Apr 25, 2026 3:09:33 PM com.shiptrack.util.MyLogger writeToLog
+INFO: Admin accessed dashboard
+Apr 25, 2026 3:09:35 PM com.shiptrack.util.MyLogger writeToLog
+INFO: Admin accessed dashboard
+Apr 25, 2026 3:09:38 PM com.shiptrack.util.MyLogger writeToLog
+INFO: User logged out successfully.
+Apr 25, 2026 3:09:49 PM com.shiptrack.util.MyLogger writeToLog
+INFO: Successful login for username: admin
+Apr 25, 2026 3:09:49 PM com.shiptrack.util.MyLogger writeToLog
+INFO: Admin accessed dashboard
+Apr 25, 2026 3:10:05 PM com.shiptrack.util.MyLogger writeToLog
+INFO: Admin locked user with ID: 3
+Apr 25, 2026 3:10:07 PM com.shiptrack.util.MyLogger writeToLog
+INFO: Admin accessed dashboard
+Apr 25, 2026 3:10:11 PM com.shiptrack.util.MyLogger writeToLog
+INFO: Admin unlocked user with ID: 3
+Apr 25, 2026 3:10:12 PM com.shiptrack.util.MyLogger writeToLog
+INFO: Admin accessed dashboard
+Apr 25, 2026 3:14:34 PM com.shiptrack.util.MyLogger writeToLog
+INFO: Admin accessed dashboard
+Apr 25, 2026 3:15:33 PM com.shiptrack.util.MyLogger writeToLog
+INFO: Admin accessed dashboard
+Apr 25, 2026 3:23:45 PM com.shiptrack.util.MyLogger writeToLog
+INFO: Admin updated password security policy.
+Apr 25, 2026 3:23:46 PM com.shiptrack.util.MyLogger writeToLog
+INFO: Admin updated password security policy.
+Apr 25, 2026 3:23:48 PM com.shiptrack.util.MyLogger writeToLog
+INFO: Admin accessed dashboard
+Apr 25, 2026 3:23:49 PM com.shiptrack.util.MyLogger writeToLog
+INFO: User logged out successfully.
+Apr 25, 2026 3:23:54 PM com.shiptrack.util.MyLogger writeToLog
+INFO: Failed login attempt: Incorrect password for username: _A7mad
+Apr 25, 2026 3:23:57 PM com.shiptrack.util.MyLogger writeToLog
+INFO: Failed login attempt: Incorrect password for username: _A7mad
+Apr 25, 2026 3:24:00 PM com.shiptrack.util.MyLogger writeToLog
+INFO: Account locked after failed attempts for username: _A7mad
+Apr 25, 2026 3:24:00 PM com.shiptrack.util.MyLogger writeToLog
+INFO: Failed login attempt: Incorrect password for username: _A7mad
+Apr 25, 2026 3:24:03 PM com.shiptrack.util.MyLogger writeToLog
+INFO: Failed login attempt: Account locked for username: _A7mad
+Apr 25, 2026 3:24:14 PM com.shiptrack.util.MyLogger writeToLog
+INFO: Successful login for username: admin
+Apr 25, 2026 3:24:14 PM com.shiptrack.util.MyLogger writeToLog
+INFO: Admin accessed dashboard
+Apr 25, 2026 3:24:19 PM com.shiptrack.util.MyLogger writeToLog
+INFO: Admin unlocked user with ID: 1
+Apr 25, 2026 3:24:20 PM com.shiptrack.util.MyLogger writeToLog
+INFO: Admin accessed dashboard
+Apr 25, 2026 3:27:10 PM com.shiptrack.util.MyLogger writeToLog
+INFO: Admin updated password security policy.
+Apr 25, 2026 3:27:45 PM com.shiptrack.util.MyLogger writeToLog
+INFO: Admin updated password security policy.
+Apr 25, 2026 3:28:55 PM com.shiptrack.util.MyLogger writeToLog
+INFO: Admin accessed dashboard
+Apr 25, 2026 3:29:28 PM com.shiptrack.util.MyLogger writeToLog
+INFO: Admin updated password security policy.
+Apr 25, 2026 3:29:31 PM com.shiptrack.util.MyLogger writeToLog
+INFO: Admin updated password security policy.
+Apr 25, 2026 3:29:33 PM com.shiptrack.util.MyLogger writeToLog
+INFO: Admin updated password security policy.
+Apr 25, 2026 3:29:54 PM com.shiptrack.util.MyLogger writeToLog
+INFO: Admin updated password security policy.
+Apr 25, 2026 3:30:01 PM com.shiptrack.util.MyLogger writeToLog
+INFO: Admin accessed dashboard
+Apr 25, 2026 3:30:02 PM com.shiptrack.util.MyLogger writeToLog
+INFO: User logged out successfully.
+Apr 25, 2026 3:30:43 PM com.shiptrack.util.MyLogger writeToLog
+INFO: Failed sign-up attempt: Username already exists for username: _A7mad
+Apr 25, 2026 3:30:54 PM com.shiptrack.util.MyLogger writeToLog
+INFO: Successful login for username: admin
+Apr 25, 2026 3:30:54 PM com.shiptrack.util.MyLogger writeToLog
+INFO: Admin accessed dashboard
+Apr 25, 2026 3:31:36 PM com.shiptrack.util.MyLogger writeToLog
+INFO: Admin accessed dashboard
+Apr 25, 2026 3:32:19 PM com.shiptrack.util.MyLogger writeToLog
+INFO: Admin updated password security policy.
+Apr 25, 2026 3:32:27 PM com.shiptrack.util.MyLogger writeToLog
+INFO: Admin updated password security policy.
+Apr 25, 2026 3:32:28 PM com.shiptrack.util.MyLogger writeToLog
+INFO: Admin updated password security policy.
+Apr 25, 2026 3:32:32 PM com.shiptrack.util.MyLogger writeToLog
+INFO: Admin accessed dashboard
+Apr 25, 2026 3:32:38 PM com.shiptrack.util.MyLogger writeToLog
+INFO: Admin accessed dashboard
+Apr 25, 2026 3:32:45 PM com.shiptrack.util.MyLogger writeToLog
+INFO: Admin accessed dashboard
+Apr 25, 2026 3:32:49 PM com.shiptrack.util.MyLogger writeToLog
+INFO: Admin updated password security policy.
+Apr 25, 2026 3:32:50 PM com.shiptrack.util.MyLogger writeToLog
+INFO: Admin accessed dashboard
+Apr 25, 2026 3:42:30 PM com.shiptrack.util.MyLogger writeToLog
+INFO: Admin accessed dashboard
+Apr 25, 2026 3:42:38 PM com.shiptrack.util.MyLogger writeToLog
+INFO: Admin accessed dashboard
+Apr 25, 2026 3:54:22 PM com.shiptrack.util.MyLogger writeToLog
+INFO: Admin accessed dashboard

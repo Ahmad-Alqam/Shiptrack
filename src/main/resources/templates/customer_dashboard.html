@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ShipTrack - Customer Dashboard</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/dashboard.css">
+</head>
+
+<body class="dashboard-body">
+
+    <div class="dashboard-layout">
+
+        <aside class="sidebar">
+            <div class="sidebar-brand">
+                <div class="logo-cube small-logo">
+                    <div class="cube-top"></div>
+                    <div class="cube-front"></div>
+                    <div class="cube-side"></div>
+                    <span class="logo-letter">ST</span>
+                </div>
+
+                <div>
+                    <h2>ShipTrack</h2>
+                    <p>Customer Portal</p>
+                </div>
+            </div>
+
+            <nav class="sidebar-nav">
+                <a href="/customer/dashboard" class="nav-item active">Dashboard</a>
+                <a href="/customer/create-shipment" class="nav-item">Create Shipment</a>
+                <a href="/customer/track-shipment" class="nav-item">Track Packages</a>
+                <a href="/profile" class="nav-item">Profile</a>
+                <a href="/logout" class="nav-item logout-link">Logout</a>
+            </nav>
+
+            <div class="sidebar-card">
+                <h3>Quick Tip</h3>
+                <p>
+                    Keep your delivery address and contact number updated
+                    to avoid shipment delays.
+                </p>
+            </div>
+        </aside>
+
+        <main class="dashboard-main">
+            <header class="dashboard-header">
+                <div>
+                    <p class="dashboard-label">Customer Dashboard</p>
+                    <h1 th:text="'Welcome back, ' + ${loggedInUser.fullName}">Welcome back, Customer</h1>
+                    <p class="dashboard-subtitle">
+                        Manage your shipments, track delivery progress,
+                        and keep your package information in one place.
+                    </p>
+                </div>
+
+                <div class="header-badge">
+                    <span class="badge-dot"></span>
+                    Active Account
+                </div>
+            </header>
+
+            <section class="stats-grid">
+                <article class="stat-card">
+                    <div class="stat-icon">📦</div>
+                    <div class="stat-info">
+                        <p>Total Shipments</p>
+                        <h3 th:text="${totalShipments}">0</h3>
+                        <span>All recorded requests</span>
+                    </div>
+                </article>
+
+                <article class="stat-card">
+                    <div class="stat-icon">🕓</div>
+                    <div class="stat-info">
+                        <p>Pending</p>
+                        <h3 th:text="${pendingCount}">0</h3>
+                        <span>Waiting for processing</span>
+                    </div>
+                </article>
+
+                <article class="stat-card">
+                    <div class="stat-icon">🚚</div>
+                    <div class="stat-info">
+                        <p>In Transit</p>
+                        <h3 th:text="${inTransitCount}">0</h3>
+                        <span>Currently on the move</span>
+                    </div>
+                </article>
+
+                <article class="stat-card">
+                    <div class="stat-icon">✅</div>
+                    <div class="stat-info">
+                        <p>Delivered</p>
+                        <h3 th:text="${deliveredCount}">0</h3>
+                        <span>Completed successfully</span>
+                    </div>
+                </article>
+            </section>
+
+            <section class="content-grid">
+                <div class="panel-card">
+                    <div class="panel-header">
+                        <h2>Quick Actions</h2>
+                        <p>Start your most common tasks quickly.</p>
+                    </div>
+
+                    <div class="action-grid">
+                        <a href="/customer/create-shipment" class="action-card">
+                            <div class="action-icon">➕</div>
+                            <h3>Create Shipment</h3>
+                            <p>Request a new package delivery.</p>
+                        </a>
+
+                        <a href="/customer/track-shipment" class="action-card">
+                            <div class="action-icon">🔎</div>
+                            <h3>Track Shipment</h3>
+                            <p>Check the current shipment status.</p>
+                        </a>
+
+                        <a href="/profile" class="action-card">
+                            <div class="action-icon">👤</div>
+                            <h3>My Profile</h3>
+                            <p>View and update your account data.</p>
+                        </a>
+
+                        <a href="/logout" class="action-card">
+                            <div class="action-icon">↩</div>
+                            <h3>Logout</h3>
+                            <p>Exit your current session safely.</p>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="panel-card">
+                    <div class="panel-header">
+                        <h2>Recent Shipments</h2>
+                        <p>Latest shipment activity overview.</p>
+                    </div>
+
+
+                    <div class="shipment-list">
+
+                        <div th:if="${#lists.isEmpty(recentShipments)}" class="shipment-item">
+                            <div>
+                                <h4>No Shipments Yet</h4>
+                                <p>Create your first shipment request to see it here.</p>
+                            </div>
+                            <span class="status-chip status-pending">Empty</span>
+                        </div>
+
+                        <div th:each="shipment : ${recentShipments}" class="shipment-item">
+                            <div>
+                                <h4 th:text="${shipment.trackingNumber}">ST-000000</h4>
+                                <p th:text="${shipment.pickupAddress + ' → ' + shipment.deliveryAddress}">From → To
+                                </p>
+                            </div>
+
+                            <span class="status-chip" th:classappend="${shipment.status.name() == 'PENDING'} ? ' status-pending' :
+                              (${shipment.status.name() == 'ASSIGNED'} ? ' status-assigned' :
+                              (${shipment.status.name() == 'PICKED_UP'} ? ' status-picked' :
+                              (${shipment.status.name() == 'IN_TRANSIT'} ? ' status-transit' :
+                              (${shipment.status.name() == 'DELIVERED'} ? ' status-delivered' : ''))))"
+                                th:text="${shipment.status}">
+                                STATUS
+                            </span>
+                        </div>
+
+                    </div>
+
+            </section>
+        </main>
+
+    </div>
+
+</body>
+
+</html>

@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ShipTrack - Admin Dashboard</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/dashboard.css">
+</head>
+
+<body class="dashboard-body">
+
+    <div class="dashboard-layout">
+
+        <aside class="sidebar">
+            <div class="sidebar-brand">
+                <div class="logo-cube small-logo">
+                    <div class="cube-top"></div>
+                    <div class="cube-front"></div>
+                    <div class="cube-side"></div>
+                    <span class="logo-letter">ST</span>
+                </div>
+
+                <div>
+                    <h2>ShipTrack</h2>
+                    <p>Admin Portal</p>
+                </div>
+            </div>
+
+            <nav class="sidebar-nav">
+                <a href="/admin/dashboard" class="nav-item active">Dashboard</a>
+                <a href="/profile" class="nav-item">Profile</a>
+                <a href="/admin/create-dispatcher" class="nav-item">Create Dispatcher</a>
+                <a href="/admin/create-driver" class="nav-item">Create Driver</a>
+                <a href="/admin/manage-users" class="nav-item">Manage Users</a>
+                <a href="/admin/security-settings" class="nav-item">Security Settings</a>
+                <a href="/logout" class="nav-item logout-link">Logout</a>
+            </nav>
+
+            <div class="sidebar-card">
+                <h3>Admin Note</h3>
+                <p>
+                    Manage users, monitor account status, and configure system
+                    security settings from one central workspace.
+                </p>
+            </div>
+        </aside>
+
+        <main class="dashboard-main">
+            <header class="dashboard-header">
+                <div>
+                    <p class="dashboard-label">Admin Dashboard</p>
+                    <h1>Welcome back, Admin</h1>
+                    <p class="dashboard-subtitle">
+                        Control user accounts, monitor shipment activity, and
+                        manage security operations across the ShipTrack system.
+                    </p>
+                </div>
+
+                <div class="header-badge admin-badge">
+                    <span class="badge-dot"></span>
+                    Full Access
+                </div>
+            </header>
+
+            <section class="stats-grid">
+                <article class="stat-card">
+                    <div class="stat-icon">👥</div>
+                    <div class="stat-info">
+                        <p>Total Users</p>
+                        <p>
+                        <h3 th:text="${totalUsers != null ? totalUsers : 0}">0</h3>
+                        </p>
+                        <span>All registered accounts</span>
+                    </div>
+                </article>
+
+                <article class="stat-card">
+                    <div class="stat-icon">🔐</div>
+                    <div class="stat-info">
+                        <p>Locked Accounts</p>
+                        <p>
+                        <h3 th:text="${totalLockedUsers != null ? totalLockedUsers : 0}">0</h3>
+                        </p>
+                        <span>Require admin review</span>
+                    </div>
+                </article>
+
+                <article class="stat-card">
+                    <div class="stat-icon">🚚</div>
+                    <div class="stat-info">
+                        <p>Active Shipments</p>
+                        <p>
+                        <h3 th:text="${totalActiveShipments != null ? totalActiveShipments : 0}">0</h3>
+                        </p>
+                        <span>Current delivery workload</span>
+                    </div>
+                </article>
+
+                <article class="stat-card">
+                    <div class="stat-icon">⚙️</div>
+                    <div class="stat-info">
+                        <p>Security Rules</p>
+                        <p>
+                        <h3 th:text="${totalSecurityPolicies != null ? totalSecurityPolicies : 0}">0</h3>
+                        </p>
+                        <span>Policy controls enabled</span>
+                    </div>
+                </article>
+            </section>
+
+            <section class="content-grid">
+                <div class="panel-card">
+                    <div class="panel-header">
+                        <h2>Admin Quick Actions</h2>
+                        <p>Access the main administrative tools quickly.</p>
+                    </div>
+
+                    <div class="action-grid">
+                        <a href="/admin/create-dispatcher" class="action-card">
+                            <div class="action-icon">👤</div>
+                            <h3>Create Dispatcher</h3>
+                            <p>Add a new dispatcher account to the system.</p>
+                        </a>
+
+                        <a href="/admin/create-driver" class="action-card">
+                            <div class="action-icon">🛵</div>
+                            <h3>Create Driver</h3>
+                            <p>Register a new driver account securely.</p>
+                        </a>
+
+                        <a href="/admin/manage-users" class="action-card">
+                            <div class="action-icon">🗂</div>
+                            <h3>Manage Users</h3>
+                            <p>Lock, unlock, review, or remove accounts.</p>
+                        </a>
+
+                        <a href="/admin/security-settings" class="action-card">
+                            <div class="action-icon">🛡</div>
+                            <h3>Security Settings</h3>
+                            <p>Control password policy and login limits.</p>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="panel-card">
+                    <div class="panel-header">
+                        <h2>System Overview</h2>
+                        <p>Recent system administration status summary.</p>
+                    </div>
+
+                    <div class="shipment-list">
+                        <div class="shipment-item">
+                            <div>
+                                <h4>Customer Accounts</h4>
+                                <p>
+                                    <strong th:text="${totalCustomers != null ? totalCustomers : 0}">0</strong>
+                                    active customer accounts in the system
+                                </p>
+                            </div>
+                            <span class="status-chip status-delivered">Stable</span>
+                        </div>
+
+                        <div class="shipment-item">
+                            <div>
+                                <h4>Dispatcher Accounts</h4>
+                                <p>
+                                    <strong th:text="${totalDispatchers != null ? totalDispatchers : 0}">0</strong>
+                                    dispatcher accounts currently available
+                                </p>
+                            </div>
+                            <span class="status-chip status-transit">Active</span>
+                        </div>
+
+                        <div class="shipment-item">
+                            <div>
+                                <h4>Driver Accounts</h4>
+                                <p>
+                                    <strong th:text="${totalDrivers != null ? totalDrivers : 0}">0</strong>
+                                    driver accounts available for assignments
+                                </p>
+                            </div>
+                            <span class="status-chip status-assigned">Ready</span>
+                        </div>
+
+                        <div class="shipment-item">
+                            <div>
+                                <h4>Account Security</h4>
+                                <p>
+                                    <strong th:text="${totalLockedUsers != null ? totalLockedUsers : 0}">0</strong>
+                                    accounts locked after repeated failed login attempts
+                                </p>
+                            </div>
+                            <span class="status-chip status-pending">Review</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="admin-lower-grid">
+                <div class="panel-card">
+                    <div class="panel-header">
+                        <h2>User Distribution</h2>
+                        <p>Breakdown of user roles currently registered.</p>
+                    </div>
+
+                    <div class="admin-summary-grid">
+                        <div class="admin-summary-box">
+                            <span class="summary-label">Customers</span>
+                            <strong th:text="${totalUsers != null ? totalUsers : 0}">0</strong>
+                        </div>
+
+                        <div class="admin-summary-box">
+                            <span class="summary-label">Dispatchers</span>
+                            <strong th:text="${totalDispatchers != null ? totalDispatchers : 0}">0</strong>
+                        </div>
+
+                        <div class="admin-summary-box">
+                            <span class="summary-label">Drivers</span>
+                            <strong th:text="${totalDrivers != null ? totalDrivers : 0}">0</strong>
+                        </div>
+
+                        <div class="admin-summary-box">
+                            <span class="summary-label">Admins</span>
+                            <strong th:text="${totalAdmins != null ? totalAdmins : 0}">0</strong>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel-card">
+                    <div class="panel-header">
+                        <h2>Security Snapshot</h2>
+                        <p>Current platform security control summary.</p>
+                    </div>
+
+                    <div class="security-list">
+                        <div class="security-item">
+                            <span>Password Min Length</span>
+                            <strong th:text="${policy != null ? policy.minLength : 8}">8</strong>
+                        </div>
+
+                        <div class="security-item">
+                            <span>Uppercase Required</span>
+                            <strong th:text="${policy != null ? policy.minUpperCase : 1}">1</strong>
+                        </div>
+
+                        <div class="security-item">
+                            <span>Lowercase Required</span>
+                            <strong th:text="${policy != null ? policy.minLowerCase : 1}">1</strong>
+                        </div>
+
+                        <div class="security-item">
+                            <span>Digits Required</span>
+                            <strong th:text="${policy != null ? policy.minDigit : 1}">1</strong>
+                        </div>
+
+                        <div class="security-item">
+                            <span>Special Characters</span>
+                            <strong th:text="${policy != null ? policy.minSpecialChars : 1}">1</strong>
+                        </div>
+
+                        <div class="security-item">
+                            <span>Max Login Attempts</span>
+                            <strong th:text="${policy != null ? policy.maxLoginAttempts : 5}">5</strong>
+                        </div>
+
+                    </div>
+                </div>
+            </section>
+        </main>
+
+    </div>
+
+</body>
+
+</html>

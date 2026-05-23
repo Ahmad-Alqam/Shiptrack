@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ShipTrack - Assigned Deliveries</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/driver-assigned-deliveries.css">
+</head>
+
+<body>
+    <div class="page-wrapper">
+
+        <section class="brand-panel">
+            <div class="brand-content">
+                <div class="logo-box">
+                    <div class="logo-cube">
+                        <div class="cube-top"></div>
+                        <div class="cube-front"></div>
+                        <div class="cube-side"></div>
+                        <span class="logo-letter">ST</span>
+                    </div>
+                    <div class="logo-text">
+                        <h1>ShipTrack</h1>
+                        <p>Your Assigned Deliveries</p>
+                    </div>
+                </div>
+
+                <div class="hero-text">
+                    <h2>Your Assigned Deliveries</h2>
+                    <p>Click on any delivery to update its status.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="form-panel">
+            <div class="form-card">
+                <!-- Delivery Status Cards (Each Status Card) -->
+                <div class="status-cards-container">
+
+                    <!-- Pending Deliveries Section -->
+                    <div class="status-card status-card-pending">
+                        <div class="status-header">
+                            <span class="status-icon">📦</span>
+                            <h4>Pending Deliveries</h4>
+                        </div>
+                        <div th:each="shipment : ${assignedDeliveries}" th:if="${shipment.status.name() == 'PENDING'}">
+                            <div class="shipment-item">
+                                <div>
+                                    <h4 th:text="${shipment.trackingNumber}">ST-000000</h4>
+                                    <p th:text="${shipment.pickupAddress + ' → ' + shipment.deliveryAddress}">From → To
+                                    </p>
+                                </div>
+                                <span class="status-chip status-pending" th:text="${shipment.status}">PENDING</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Picked Up Deliveries Section -->
+                    <div class="status-card status-card-picked-up">
+                        <div class="status-header">
+                            <span class="status-icon">🚚</span>
+                            <h4>Picked Up Deliveries</h4>
+                        </div>
+                        <div th:each="shipment : ${assignedDeliveries}"
+                            th:if="${shipment.status.name() == 'PICKED_UP'}">
+                            <div class="shipment-item">
+                                <div>
+                                    <h4 th:text="${shipment.trackingNumber}">ST-000000</h4>
+                                    <p th:text="${shipment.pickupAddress + ' → ' + shipment.deliveryAddress}">From → To
+                                    </p>
+                                </div>
+                                <span class="status-chip status-picked-up" th:text="${shipment.status}">PICKED UP</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- In Transit Deliveries Section -->
+                    <div class="status-card status-card-in-transit">
+                        <div class="status-header">
+                            <span class="status-icon">🚚</span>
+                            <h4>In Transit</h4>
+                        </div>
+                        <div th:each="shipment : ${assignedDeliveries}"
+                            th:if="${shipment.status.name() == 'IN_TRANSIT'}">
+                            <div class="shipment-item">
+                                <div>
+                                    <h4 th:text="${shipment.trackingNumber}">ST-000000</h4>
+                                    <p th:text="${shipment.pickupAddress + ' → ' + shipment.deliveryAddress}">From → To
+                                    </p>
+                                </div>
+                                <span class="status-chip status-in-transit" th:text="${shipment.status}">IN
+                                    TRANSIT</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Delivered Deliveries Section -->
+                    <div class="status-card status-card-delivered">
+                        <div class="status-header">
+                            <span class="status-icon">✅</span>
+                            <h4>Delivered Deliveries</h4>
+                        </div>
+                        <div th:each="shipment : ${assignedDeliveries}"
+                            th:if="${shipment.status.name() == 'DELIVERED'}">
+                            <div class="shipment-item">
+                                <div>
+                                    <h4 th:text="${shipment.trackingNumber}">ST-000000</h4>
+                                    <p th:text="${shipment.pickupAddress + ' → ' + shipment.deliveryAddress}">From → To
+                                    </p>
+                                </div>
+                                <span class="status-chip status-delivered" th:text="${shipment.status}">DELIVERED</span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div> <!-- End of status-cards-container -->
+                <div class="page-link-box">
+                    <span>Need to go back?</span>
+                    <a href="/driver/dashboard">Driver Dashboard</a>
+                </div>
+            </div>
+        </section>
+
+    </div>
+</body>
+
+</html>

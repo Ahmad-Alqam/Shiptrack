@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ShipTrack - Assign Shipment</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/dispatcher-forms.css">
+</head>
+
+<body>
+    <div class="page-wrapper">
+
+        <section class="brand-panel">
+            <div class="brand-content">
+                <div class="logo-box">
+                    <div class="logo-cube">
+                        <div class="cube-top"></div>
+                        <div class="cube-front"></div>
+                        <div class="cube-side"></div>
+                        <span class="logo-letter">ST</span>
+                    </div>
+                    <div class="logo-text">
+                        <h1>ShipTrack</h1>
+                        <p>Dispatcher assignment workspace</p>
+                    </div>
+                </div>
+
+                <div class="hero-text">
+                    <h2>Assign pending shipments to available drivers</h2>
+                    <p>
+                        Select a pending shipment and assign it to a driver to move the delivery
+                        workflow into the assigned stage.
+                    </p>
+                </div>
+
+                <div class="feature-list">
+                    <div class="feature-card">
+                        <span class="feature-icon">📋</span>
+                        <div>
+                            <h3>Pending Requests</h3>
+                            <p>View only shipments that are waiting for assignment.</p>
+                        </div>
+                    </div>
+
+                    <div class="feature-card">
+                        <span class="feature-icon">🚚</span>
+                        <div>
+                            <h3>Driver Assignment</h3>
+                            <p>Link shipments to drivers with a single action.</p>
+                        </div>
+                    </div>
+
+                    <div class="feature-card">
+                        <span class="feature-icon">⚡</span>
+                        <div>
+                            <h3>Fast Dispatching</h3>
+                            <p>Keep logistics operations moving with accurate assignment.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="form-panel">
+            <div class="form-card dispatcher-form-card">
+
+                <form action="/dispatcher/assign-shipment" method="post">
+                    <div class="form-header">
+                        <h2>Assign Shipment</h2>
+                        <p>Select a shipment and assign it to a driver.</p>
+                    </div>
+
+                    <div th:if="${error}" class="server-message error-message-box" th:text="${error}"></div>
+                    <div th:if="${success}" class="server-message success-message-box" th:text="${success}"></div>
+
+                    <div class="input-group">
+                        <label for="shipmentId">Pending Shipment</label>
+                        <select id="shipmentId" name="shipmentId" class="styled-select" required>
+                            <option value="">Select a shipment</option>
+                            <option th:each="shipment : ${pendingShipments}" th:value="${shipment.id}"
+                                th:text="${shipment.trackingNumber + ' | ' + shipment.pickupAddress + ' → ' + shipment.deliveryAddress}">
+                            </option>
+                        </select>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="driverId">Driver</label>
+                        <select id="driverId" name="driverId" class="styled-select" required>
+                            <option value="">Select a driver</option>
+                            <option th:each="driver : ${drivers}" th:value="${driver.id}"
+                                th:text="${driver.fullName + ' | ' + driver.username}">
+                            </option>
+                        </select>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="submit" class="primary-btn">Assign Shipment</button>
+                    </div>
+
+                    <div class="page-link-box">
+                        <span>Need to go back?</span>
+                        <a href="/dispatcher/dashboard">Dispatcher Dashboard</a>
+                    </div>
+                </form>
+
+            </div>
+        </section>
+
+    </div>
+</body>
+
+</html>

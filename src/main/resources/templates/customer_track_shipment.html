@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ShipTrack - Track Shipment</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/track-shipment.css">
+</head>
+
+<body>
+    <div class="track-page-wrapper">
+
+        <div class="top-track-layout">
+            <section class="brand-panel">
+                <div class="brand-content">
+                    <div class="logo-box">
+                        <div class="logo-cube">
+                            <div class="cube-top"></div>
+                            <div class="cube-front"></div>
+                            <div class="cube-side"></div>
+                            <span class="logo-letter">ST</span>
+                        </div>
+                        <div class="logo-text">
+                            <h1>ShipTrack</h1>
+                            <p>Secure package delivery system</p>
+                        </div>
+                    </div>
+
+                    <div class="hero-text">
+                        <h2>Track your shipment in real time</h2>
+                        <p>
+                            Enter the tracking number to view the current shipment status, delivery route
+                            information, and package details.
+                        </p>
+                    </div>
+
+                    <div class="feature-list">
+                        <div class="feature-card">
+                            <span class="feature-icon">🔎</span>
+                            <div>
+                                <h3>Quick Lookup</h3>
+                                <p>Search shipments instantly using the tracking number.</p>
+                            </div>
+                        </div>
+
+                        <div class="feature-card">
+                            <span class="feature-icon">📦</span>
+                            <div>
+                                <h3>Status Visibility</h3>
+                                <p>View the current status from pending to delivered.</p>
+                            </div>
+                        </div>
+
+                        <div class="feature-card">
+                            <span class="feature-icon">🚚</span>
+                            <div>
+                                <h3>Delivery Updates</h3>
+                                <p>Keep track of your package journey clearly and securely.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="track-search-panel">
+                <div class="form-card track-search-card">
+                    <form id="trackForm" action="/customer/track-shipment" method="post" novalidate>
+                        <div class="form-header">
+                            <h2>Track Shipment</h2>
+                            <p>Enter your tracking number to search for your shipment.</p>
+                        </div>
+
+                        <div th:if="${error}" class="server-message error-message-box" th:text="${error}"></div>
+                        <div th:if="${success}" class="server-message success-message-box" th:text="${success}"></div>
+
+                        <div class="input-group">
+                            <label for="trackingNumber">Tracking Number</label>
+                            <input type="text" id="trackingNumber" name="trackingNumber"
+                                placeholder="Enter tracking number e.g. ST-123456">
+                            <small class="error-message" id="trackingNumberError"></small>
+                        </div>
+
+                        <div class="form-actions">
+                            <button type="submit" class="primary-btn">Track Now</button>
+                        </div>
+
+                        <div id="formStatus" class="form-status"></div>
+
+                        <div class="page-link-box">
+                            <span>Need to go back?</span>
+                            <a href="/customer/dashboard">Customer Dashboard</a>
+                        </div>
+                    </form>
+                </div>
+            </section>
+        </div>
+
+        <section class="bottom-result-section" th:if="${shipment}">
+            <div class="shipment-result-wide">
+                <div class="tracking-result-header">
+                    <div class="tracking-result-title">
+                        <span class="tracking-result-icon">📦</span>
+                        <div>
+                            <h2>Tracking Result</h2>
+                            <p>Your shipment information appears below.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tracking-result-card-wide">
+                    <div class="tracking-left">
+                        <div class="package-visual">📦</div>
+
+                        <div class="status-chip-large"
+                            th:classappend="${shipment.status.name() == 'PENDING'} ? ' status-pending-large' :
+                                         (${shipment.status.name() == 'ASSIGNED'} ? ' status-assigned-large' :
+                                         (${shipment.status.name() == 'PICKED_UP'} ? ' status-picked-large' :
+                                         (${shipment.status.name() == 'IN_TRANSIT'} ? ' status-transit-large' :
+                                         (${shipment.status.name() == 'DELIVERED'} ? ' status-delivered-large' : ''))))"
+                            th:text="${shipment.status}">
+                        </div>
+
+                        <p class="status-caption">Current Shipment Status</p>
+                    </div>
+
+                    <div class="tracking-divider"></div>
+
+                    <div class="tracking-right">
+                        <div class="tracking-main-id">
+                            <h3 th:text="${shipment.trackingNumber}"></h3>
+                            <span>Tracking Number</span>
+                        </div>
+
+                        <div class="tracking-info-grid">
+                            <div class="tracking-info-box">
+                                <span class="info-label">Pickup Address</span>
+                                <strong th:text="${shipment.pickupAddress}"></strong>
+                            </div>
+
+                            <div class="tracking-info-box">
+                                <span class="info-label">Delivery Address</span>
+                                <strong th:text="${shipment.deliveryAddress}"></strong>
+                            </div>
+
+                            <div class="tracking-info-box">
+                                <span class="info-label">Package Type</span>
+                                <strong th:text="${shipment.packageType}"></strong>
+                            </div>
+
+                            <div class="tracking-info-box">
+                                <span class="info-label">Package Weight</span>
+                                <strong th:text="${shipment.packageWeight} + ' kg'"></strong>
+                            </div>
+                        </div>
+
+                        <div class="tracking-note-box">
+                            <span class="info-label">Notes</span>
+                            <p
+                                th:text="${shipment.notes != null and !shipment.notes.isEmpty() ? shipment.notes : 'No notes provided'}">
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <script src="/js/track-shipment.js"></script>
+</body>
+
+</html>
