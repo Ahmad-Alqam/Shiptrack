@@ -1,5 +1,5 @@
 package com.shiptrack.controller;
-
+// Handles admin functions.
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,6 +51,7 @@ public class AdminController {
         model.addAttribute("totalActiveShipments", 0);
         model.addAttribute("totalSecurityPolicies", 5);
 
+        // Fetch current password policy
         PasswordPolicy policy = passwordPolicyRepository.findAll().isEmpty()
         ? null
         : passwordPolicyRepository.findAll().get(0);
@@ -65,9 +66,9 @@ public class AdminController {
     // Admin can remove a user
     @PostMapping("/admin/removeUser")
     public String removeUser(@RequestParam Long userId, Model model) {
-        User user = userRepository.findById(userId).orElse(null);
-
-        if (user != null) {
+        User user = userRepository.findById(userId).orElse(null); // Find user by ID
+        
+        if (user != null) { // if user exists, delete it
             userRepository.delete(user);
             MyLogger.writeToLog("Admin removed user with ID: " + userId);
             model.addAttribute("success", "User removed successfully.");
@@ -84,9 +85,9 @@ public class AdminController {
         User user = userRepository.findById(userId).orElse(null);
 
         if (user != null) {
-            user.setLocked(lock);
+            user.setLocked(lock); // Set locked status based on the 'lock' parameter
             userRepository.save(user);
-            String action = lock ? "locked" : "unlocked";
+            String action = lock ? "locked" : "unlocked"; // Determine action for logging
             MyLogger.writeToLog("Admin " + action + " user with ID: " + userId);
             model.addAttribute("success", "User " + action + " successfully.");
         } else {
@@ -106,13 +107,21 @@ public class AdminController {
                                         Model model) {
 
             PasswordPolicy policy;
-
+            
+            // If no policy exists, create a new one. Otherwise, update the existing policy.
             if (passwordPolicyRepository.findAll().isEmpty()) {
                 policy = new PasswordPolicy();
             } else {
                 policy = passwordPolicyRepository.findAll().get(0);
             }
 
+            // Validate input values
+            if (minLength < 6 || minUpperCase < 0 || minLowerCase < 0 || minDigit < 0 || minSpecialChars < 0 || maxLoginAttempts < 1) {
+                model.addAttribute("error", "Invalid input values. Please ensure all values are positive and minimum length is at least 6.");
+                return "admin_security_settings";
+            }
+
+            // Update policy with new values
             policy.setMinLength(minLength);
             policy.setMinUpperCase(minUpperCase);
             policy.setMinLowerCase(minLowerCase);
@@ -129,8 +138,9 @@ public class AdminController {
 
     @GetMapping("/admin/create-dispatcher")
     public String createDispatcherPage(Model model,
-            @RequestParam(value = "success", required = false) String success) {
-
+            @RequestParam(value = "success", required = false) String success) { // Show success message if redirected after successful creation
+            
+        // Fetch current password policy to display on the page
         PasswordPolicy policy = passwordPolicyRepository.findAll().isEmpty()
                 ? null
                 : passwordPolicyRepository.findAll().get(0);
@@ -143,8 +153,9 @@ public class AdminController {
 
     @GetMapping("/admin/create-driver")
         public String createDriverPage(Model model,
-                @RequestParam(value = "success", required = false) String success) {
-
+                @RequestParam(value = "success", required = false) String success) { // Show success message if redirected after successful creation
+                
+            // Fetch current password policy to display on the page
             PasswordPolicy policy = passwordPolicyRepository.findAll().isEmpty()
                     ? null
                     : passwordPolicyRepository.findAll().get(0);
@@ -156,7 +167,7 @@ public class AdminController {
         }
 
     @GetMapping("/admin/manage-users")
-        public String manageUsersPage(Model model) {
+        public String manageUsersPage(Model model) { // Show all users that can be managed (customers, dispatchers, drivers)
             List<User> manageableUsers = userRepository.findByRole(Role.CUSTOMER);
             manageableUsers.addAll(userRepository.findByRole(Role.DISPATCHER));
             manageableUsers.addAll(userRepository.findByRole(Role.DRIVER));
@@ -167,8 +178,9 @@ public class AdminController {
 
     @GetMapping("/admin/security-settings")
         public String securitySettingsPage(Model model,
-                                        @RequestParam(value = "success", required = false) String success) {
-
+                                        @RequestParam(value = "success", required = false) String success) { // Show success message if redirected after successful policy update
+            
+            // Fetch current password policy to display on the page
             PasswordPolicy policy = passwordPolicyRepository.findAll().isEmpty()
                     ? null
                     : passwordPolicyRepository.findAll().get(0);
@@ -207,20 +219,21 @@ public class AdminController {
         }
 
         private String createStaffUser(String fullName, String idNumber, String contactNumber,
-            
             String username, String password, Role role, Model model) {
-
+            
             fullName = fullName.trim();
             idNumber = idNumber.trim();
             contactNumber = contactNumber.trim();
             username = username.trim();
-
+            
+            
             if (fullName.isEmpty() || idNumber.isEmpty() || contactNumber.isEmpty()
                     || username.isEmpty() || password.isEmpty()) {
                 model.addAttribute("error", "All fields are required.");
                 return role == Role.DISPATCHER ? "admin_create_dispatcher" : "admin_create_driver";
             }
 
+            // Check for existing username and ID number to prevent duplicates
             if (userRepository.existsByUsername(username)) {
                 model.addAttribute("error", "Username already exists.");
                 return role == Role.DISPATCHER ? "admin_create_dispatcher" : "admin_create_driver";
@@ -232,30 +245,34 @@ public class AdminController {
             }
 
             // Prevent SQL Injection / invalid input
-            if (!username.matches("^[a-zA-Z0-9_]+$")) {
+            if (!username.matches("^[a-zA-Z0-9_]+$")) { // Allow only alphanumeric and underscores in username
                 model.addAttribute("error", "Invalid username format.");
-                return role == Role.DISPATCHER ? "admin_create_dispatcher" : "admin_create_driver";
+                return role == Role.DISPATCHER ? "admin_create_dispatcher" : "admin_create_driver"; // Return to the appropriate form based on the role being created
             }
 
+            // Validate contact number format (basic validation for digits and length)
             if (!contactNumber.matches("\\d{10,15}")) {
                 model.addAttribute("error", "Invalid phone number.");
                 return role == Role.DISPATCHER ? "admin_create_dispatcher" : "admin_create_driver";
             }
 
+            // Validate ID number format (basic validation for digits only)
             if (!idNumber.matches("\\d+")) {
                 model.addAttribute("error", "Invalid ID number.");
                 return role == Role.DISPATCHER ? "admin_create_dispatcher" : "admin_create_driver";
             }
 
+            // Check password against current policy
             PasswordPolicy policy = passwordPolicyRepository.findAll().isEmpty()
                 ? null
                 : passwordPolicyRepository.findAll().get(0);
 
-            if (policy != null && !isPasswordValid(password, policy)) {
+            if (policy != null && !isPasswordValid(password, policy)) { // If password doesn't meet the policy, show error
                 model.addAttribute("error", "Password does not meet the current security policy.");
                 return role == Role.DISPATCHER ? "admin_create_dispatcher" : "admin_create_driver";
             }
 
+            // Create and save the new user (dispatcher or driver)
             User user = new User();
             user.setFullName(fullName);
             user.setIdNumber(idNumber);
@@ -271,6 +288,7 @@ public class AdminController {
 
             MyLogger.writeToLog("Admin created " + role + " account: " + username);
 
+            // Redirect to the appropriate page with a success message based on the role created
             if (role == Role.DISPATCHER) {
                 return "redirect:/admin/create-dispatcher?success=Dispatcher created successfully";
             } else {
@@ -278,16 +296,19 @@ public class AdminController {
             }
         }
 
+        // Helper method to validate password against the current policy
         private boolean isPasswordValid(String password, PasswordPolicy policy) {
             if (password.length() < policy.getMinLength()) {
                 return false;
             }
 
+            // Counters for different character types
             int upper = 0;
             int lower = 0;
             int digit = 0;
             int special = 0;
 
+            // Iterate through each character in the password and count the types
             for (char c : password.toCharArray()) {
                 if (Character.isUpperCase(c)) {
                     upper++;
@@ -299,7 +320,7 @@ public class AdminController {
                     special++;
                 }
             }
-
+            // Check if the counts meet the minimum requirements specified in the policy
             return upper >= policy.getMinUpperCase()
                     && lower >= policy.getMinLowerCase()
                     && digit >= policy.getMinDigit()

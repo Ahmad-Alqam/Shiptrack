@@ -1,5 +1,5 @@
 package com.shiptrack.model;
-
+// Represents password strength rules.
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;

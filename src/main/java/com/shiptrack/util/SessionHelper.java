@@ -1,5 +1,5 @@
 package com.shiptrack.util;
-
+// Provides reusable session-checking methods.
 import com.shiptrack.model.Role;
 import com.shiptrack.model.User;
 
@@ -25,5 +25,10 @@ public final class SessionHelper {
     public static boolean hasRole(HttpSession session, Role role) {
         User user = getLoggedInUser(session);
         return user != null && user.getRole() == role;
+    }
+
+    public static Long getUserId(HttpSession session) {
+        User user = getLoggedInUser(session);
+        return (user != null) ? user.getId() : null;
     }
 }

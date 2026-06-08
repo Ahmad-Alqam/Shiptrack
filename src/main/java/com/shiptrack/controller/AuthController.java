@@ -1,5 +1,5 @@
 package com.shiptrack.controller;
-
+// Handles authentication-related actions.
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -120,6 +120,7 @@ public class AuthController {
         user.setFailedAttempts(0);
         user.setEnabled(true);
 
+        // Save the user object into the database using UserRepository
         userRepository.save(user);
         MyLogger.writeToLog("Successful registration for username: " + username);  // Log successful registration
 
@@ -145,12 +146,13 @@ public class AuthController {
         // Fetch user from the database
         java.util.Optional<User> optionalUser = userRepository.findByUsername(username);
 
+        // Check if user exists
         if (optionalUser.isEmpty()) {
             model.addAttribute("error", "Invalid username or password.");
             MyLogger.writeToLog("Failed login attempt with username: " + username);  // Log failed login attempt
             return "login";
         }
-
+        // If user exists, get the user object
         User user = optionalUser.get();
 
         // Check if the account is locked
@@ -168,13 +170,16 @@ public class AuthController {
         ? null
             : passwordPolicyRepository.findAll().get(0);
 
-            int maxAttempts = policy != null ? policy.getMaxLoginAttempts() : 5;
+            // Determine max login attempts from policy or use default value
+            int maxAttempts = policy != null ? policy.getMaxLoginAttempts() : 3;
 
+            // Lock the account if failed attempts exceed the maximum allowed
             if (user.getFailedAttempts() >= maxAttempts) {
                 user.setLocked(true);
                 MyLogger.writeToLog("Account locked after failed attempts for username: " + username);
             }
             
+            // Save the updated user object with incremented failed attempts and potential lock status
             userRepository.save(user);
 
             model.addAttribute("error", "Invalid username or password.");
@@ -185,7 +190,8 @@ public class AuthController {
         // Reset failed attempts and save user after successful login
         user.setFailedAttempts(0);
         userRepository.save(user);
-
+        
+        // Set user session and log successful login
         session.setAttribute("user", user);  // Set user session
         MyLogger.writeToLog("Successful login for username: " + username);  // Log successful login
 
@@ -234,35 +240,40 @@ public class AuthController {
     }
 
     private boolean isPasswordValid(String password, PasswordPolicy policy) {
-    if (password.length() < policy.getMinLength()) {
-        return false;
-    }
-
-    int upper = 0;
-    int lower = 0;
-    int digit = 0;
-    int special = 0;
-
-    for (char c : password.toCharArray()) {
-        if (Character.isUpperCase(c)) {
-            upper++;
-        } else if (Character.isLowerCase(c)) {
-            lower++;
-        } else if (Character.isDigit(c)) {
-            digit++;
-        } else {
-            special++;
+        // Check minimum length requirement
+        if (password.length() < policy.getMinLength()) {
+            return false;
         }
-    }
 
-    return upper >= policy.getMinUpperCase()
-            && lower >= policy.getMinLowerCase()
-            && digit >= policy.getMinDigit()
-            && special >= policy.getMinSpecialChars();
-}
+        // Counters for different character types
+        int upper = 0;
+        int lower = 0;
+        int digit = 0;
+        int special = 0;
+
+        // Loop through each character in the password
+        for (char c : password.toCharArray()) {
+            if (Character.isUpperCase(c)) {
+                upper++;
+            } else if (Character.isLowerCase(c)) {
+                lower++;
+            } else if (Character.isDigit(c)) {
+                digit++;
+            } else {
+                special++;
+            }
+        }
+
+        // Return true only if all password policy requirements are satisfied
+        return upper >= policy.getMinUpperCase()
+                && lower >= policy.getMinLowerCase()
+                && digit >= policy.getMinDigit()
+                && special >= policy.getMinSpecialChars();
+    }
 
     @GetMapping("/register/customer")
     public String registerCustomerPage(Model model) {
+        // Fetch the current password policy from the database to display on the registration page
         PasswordPolicy policy = passwordPolicyRepository.findAll().isEmpty()
                 ? null
                 : passwordPolicyRepository.findAll().get(0);

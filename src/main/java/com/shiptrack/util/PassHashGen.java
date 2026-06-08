@@ -1,5 +1,5 @@
 package com.shiptrack.util;
-
+// A helper class for generating password hashes.s
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 public final class PassHashGen {

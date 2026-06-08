@@ -1,5 +1,5 @@
 package com.shiptrack.model;
-
+// Represents a shipment record.
 import java.time.LocalDateTime;
 
 import jakarta.persistence.Column;

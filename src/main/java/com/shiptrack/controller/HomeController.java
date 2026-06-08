@@ -1,5 +1,5 @@
 package com.shiptrack.controller;
-
+// Handles general navigation pages.
 import java.util.List;
 
 import org.springframework.stereotype.Controller;
@@ -28,11 +28,11 @@ public class HomeController {
     public String home(HttpSession session) {
         User user = SessionHelper.getLoggedInUser(session);
 
-        if (user == null) {
+        if (user == null) { // If no user is logged in, redirect to login page
             return "redirect:/login";
         }
 
-        switch (user.getRole()) {
+        switch (user.getRole()) { // Redirect users to their respective dashboards based on their role
             case CUSTOMER:
                 return "redirect:/customer/dashboard";
             case DISPATCHER:
@@ -46,11 +46,9 @@ public class HomeController {
         }
     }
 
-   
-
     @GetMapping("/login")
     public String loginPage(HttpSession session) {
-        if (SessionHelper.isLoggedIn(session)) {
+        if (SessionHelper.isLoggedIn(session)) { // If user is already logged in, redirect to home page
             return "redirect:/";
         }
         return "login";
@@ -58,16 +56,17 @@ public class HomeController {
 
     @GetMapping("/customer/dashboard")
     public String customerDashboard(HttpSession session, Model model) {
-        if (!SessionHelper.isLoggedIn(session)) {
+        if (!SessionHelper.isLoggedIn(session)) { // Check if user is logged in
             return "redirect:/login";
         }
 
-        if (!SessionHelper.hasRole(session, Role.CUSTOMER)) {
+        if (!SessionHelper.hasRole(session, Role.CUSTOMER)) { // Check if user has the CUSTOMER role
             return "redirect:/unauthorized";
         }
 
-        User user = SessionHelper.getLoggedInUser(session);
+        User user = SessionHelper.getLoggedInUser(session); // Get the logged-in customer from the session
 
+        // Fetch and count shipments for this customer by status
         long totalShipments = shipmentRepository.countByCustomer(user);
         long pendingCount = shipmentRepository.countByCustomerAndStatus(user, ShipmentStatus.PENDING);
         long assignedCount = shipmentRepository.countByCustomerAndStatus(user, ShipmentStatus.ASSIGNED);
@@ -75,8 +74,10 @@ public class HomeController {
         long inTransitCount = shipmentRepository.countByCustomerAndStatus(user, ShipmentStatus.IN_TRANSIT);
         long deliveredCount = shipmentRepository.countByCustomerAndStatus(user, ShipmentStatus.DELIVERED);
 
+        // Fetch recent shipments for this customer sorted by most recent to show on the dashboard
         List<Shipment> recentShipments = shipmentRepository.findByCustomerOrderByCreatedAtDesc(user).stream().limit(4).toList();
 
+        // Add all the fetched data to the model to be displayed on the dashboard
         model.addAttribute("loggedInUser", user);
         model.addAttribute("totalShipments", totalShipments);
         model.addAttribute("pendingCount", pendingCount);
@@ -90,7 +91,7 @@ public class HomeController {
     }
 
     @GetMapping("/unauthorized")
-    public String unauthorizedPage() {
+    public String unauthorizedPage() { // A simple page to show when a user tries to access a page they are not authorized to view
         return "unauthorized";
     }
 }
