@@ -9,11 +9,13 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.shiptrack.model.PasswordPolicy;
 import com.shiptrack.model.Role;
 import com.shiptrack.model.User;
 import com.shiptrack.repository.PasswordPolicyRepository;
+import com.shiptrack.repository.ShipmentRepository;
 import com.shiptrack.repository.UserRepository;
 import com.shiptrack.util.MyLogger;
 
@@ -29,6 +31,17 @@ public class AdminController {
     @Autowired
     private PasswordPolicyRepository passwordPolicyRepository;
 
+    private final ShipmentRepository shipmentRepository; // Inject ShipmentRepository to fetch shipment-related data for the dashboard
+    // Constructor injection for ShipmentRepository
+    public AdminController(UserRepository userRepository,
+                       PasswordEncoder passwordEncoder,
+                       PasswordPolicyRepository passwordPolicyRepository,
+                       ShipmentRepository shipmentRepository) {
+    this.userRepository = userRepository;
+    this.passwordEncoder = passwordEncoder;
+    this.passwordPolicyRepository = passwordPolicyRepository;
+    this.shipmentRepository = shipmentRepository;
+}
     @GetMapping("/admin/dashboard")
     public String adminDashboard(Model model) {
         // Fetch all users and count them
@@ -65,19 +78,34 @@ public class AdminController {
 
     // Admin can remove a user
     @PostMapping("/admin/removeUser")
-    public String removeUser(@RequestParam Long userId, Model model) {
-        User user = userRepository.findById(userId).orElse(null); // Find user by ID
-        
-        if (user != null) { // if user exists, delete it
+        public String removeUser(@RequestParam Long userId, RedirectAttributes redirectAttributes) {
+            User user = userRepository.findById(userId).orElse(null);
+
+            if (user == null) {
+                redirectAttributes.addFlashAttribute("error", "User not found.");
+                return "redirect:/admin/manage-users";
+            }
+
+            boolean linkedToShipment =
+                    shipmentRepository.existsByDispatcher(user)
+                            || shipmentRepository.existsByDriver(user)
+                            || shipmentRepository.existsByCustomer(user);
+
+            if (linkedToShipment) {
+                redirectAttributes.addFlashAttribute(
+                        "error",
+                        "User cannot be removed because they are linked to existing shipments."
+                );
+                MyLogger.writeToLog("Failed to remove user with ID: " + userId + " because user is linked to shipments.");
+                return "redirect:/admin/manage-users";
+            }
+
             userRepository.delete(user);
             MyLogger.writeToLog("Admin removed user with ID: " + userId);
-            model.addAttribute("success", "User removed successfully.");
-        } else {
-            model.addAttribute("error", "User not found.");
-        }
+            redirectAttributes.addFlashAttribute("success", "User removed successfully.");
 
-        return "redirect:/admin/manage-users";
-    }
+            return "redirect:/admin/manage-users";
+        }
 
     // Admin can lock/unlock a user account
     @PostMapping("/admin/lockUnlockUser")

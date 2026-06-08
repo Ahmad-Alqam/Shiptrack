@@ -39,20 +39,21 @@
                 <!-- Delivery Status Cards (Each Status Card) -->
                 <div class="status-cards-container">
 
-                    <!-- Pending Deliveries Section -->
+                    <!-- Assigned Deliveries Section -->
                     <div class="status-card status-card-pending">
                         <div class="status-header">
                             <span class="status-icon">📦</span>
-                            <h4>Pending Deliveries</h4>
+                            <h4>Assigned Deliveries</h4>
                         </div>
-                        <div th:each="shipment : ${assignedDeliveries}" th:if="${shipment.status.name() == 'PENDING'}">
+
+                        <div th:each="shipment : ${assignedDeliveries}" th:if="${shipment.status.name() == 'ASSIGNED'}">
                             <div class="shipment-item">
                                 <div>
                                     <h4 th:text="${shipment.trackingNumber}">ST-000000</h4>
                                     <p th:text="${shipment.pickupAddress + ' → ' + shipment.deliveryAddress}">From → To
                                     </p>
                                 </div>
-                                <span class="status-chip status-pending" th:text="${shipment.status}">PENDING</span>
+                                <span class="status-chip status-pending" th:text="${shipment.status}">ASSIGNED</span>
                             </div>
                         </div>
                     </div>

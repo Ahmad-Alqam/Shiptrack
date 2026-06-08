@@ -9,6 +9,53 @@
     <link rel="stylesheet" href="/css/dashboard.css">
 </head>
 
+<style>
+    .popup-message {
+        position: fixed;
+        top: 25px;
+        right: 25px;
+        z-index: 9999;
+        min-width: 320px;
+        max-width: 430px;
+        padding: 16px 20px;
+        border-radius: 14px;
+        font-size: 15px;
+        font-weight: 700;
+        box-shadow: 0 12px 30px rgba(0, 0, 0, 0.18);
+        animation: popupSlideIn 0.35s ease;
+        transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+
+    .popup-success {
+        background: #e8f8ee;
+        color: #16823a;
+        border: 1px solid #b9e8c8;
+    }
+
+    .popup-error {
+        background: #fdeaea;
+        color: #b42318;
+        border: 1px solid #f5b5b5;
+    }
+
+    .hide-popup {
+        opacity: 0;
+        transform: translateY(-15px);
+    }
+
+    @keyframes popupSlideIn {
+        from {
+            opacity: 0;
+            transform: translateY(-15px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+</style>
+
 <body class="dashboard-body">
 
     <div class="dashboard-layout">
@@ -125,7 +172,25 @@
         </main>
 
     </div>
+    <div th:if="${success}" class="popup-message popup-success" id="popupMessage">
+        <span th:text="${success}"></span>
+    </div>
 
+    <div th:if="${error}" class="popup-message popup-error" id="popupMessage">
+        <span th:text="${error}"></span>
+    </div>
+
+    <script>
+        setTimeout(function () {
+            const popup = document.getElementById("popupMessage");
+            if (popup) {
+                popup.classList.add("hide-popup");
+                setTimeout(function () {
+                    popup.remove();
+                }, 500);
+            }
+        }, 3500);
+    </script>
 </body>
 
 </html>

@@ -35,4 +35,8 @@ public interface ShipmentRepository extends JpaRepository<Shipment, Long> {
 
     @Override
     Optional<Shipment> findById(Long id);
+
+    boolean existsByDispatcher(User dispatcher); // Check if there are any shipments assigned to a specific dispatcher
+    boolean existsByDriver(User driver); // Check if there are any shipments assigned to a specific driver
+    boolean existsByCustomer(User customer); // Check if there are any shipments associated with a specific customer
 }
