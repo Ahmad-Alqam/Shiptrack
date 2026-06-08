@@ -18,18 +18,21 @@ const minLower = parseInt(document.getElementById("minLowerPolicy").value);
 const minDigit = parseInt(document.getElementById("minDigitPolicy").value);
 const minSpecial = parseInt(document.getElementById("minSpecialPolicy").value);
 
+// Set an error message and styling for a specific input field
 function setError(input, message) {
     const errorElement = document.getElementById(input.id + "Error");
     errorElement.textContent = message;
     input.classList.add("input-error");
 }
 
+// Clear error message and styling for a specific input field
 function clearError(input) {
     const errorElement = document.getElementById(input.id + "Error");
     errorElement.textContent = "";
     input.classList.remove("input-error");
 }
 
+// Validate the full name field to ensure it is not empty
 function validateFullName() {
     const value = fullName.value.trim();
 
@@ -47,6 +50,7 @@ function validateFullName() {
     return true;
 }
 
+// Validate the ID number field to ensure it is not empty and meets format requirements
 function validateIdNumber() {
     const value = idNumber.value.trim();
 
@@ -64,6 +68,7 @@ function validateIdNumber() {
     return true;
 }
 
+// Validate the contact number field to ensure it is not empty and meets format requirements
 function validateContactNumber() {
     const value = contactNumber.value.trim();
 
@@ -81,6 +86,7 @@ function validateContactNumber() {
     return true;
 }
 
+// Validate the username field to ensure it is not empty and meets minimum length requirements
 function validateUsername() {
     const value = username.value.trim();
 
@@ -98,6 +104,7 @@ function validateUsername() {
     return true;
 }
 
+// Update the password rules display based on the current password input and return whether the password meets all rules
 function updatePasswordRules() {
     const value = password.value;
 
@@ -121,6 +128,7 @@ function updatePasswordRules() {
     return hasLength && hasUpper && hasLower && hasDigit && hasSpecial;
 }
 
+// Toggle the "valid" class on a password rule element based on whether the rule is met
 function toggleRule(element, isValid) {
     if (isValid) {
         element.classList.add("valid");
@@ -129,6 +137,7 @@ function toggleRule(element, isValid) {
     }
 }
 
+// Validate the password field to ensure it is not empty and meets all password rules
 function validatePassword() {
     const value = password.value;
 
@@ -146,6 +155,7 @@ function validatePassword() {
     return true;
 }
 
+// Validate the confirm password field to ensure it matches the password field
 function validateConfirmPassword() {
     const value = confirmPassword.value;
 
@@ -163,22 +173,26 @@ function validateConfirmPassword() {
     return true;
 }
 
+// Clear the form status message and styling
 function clearFormStatus() {
     formStatus.textContent = "";
     formStatus.classList.remove("success", "error");
 }
 
+// Display a form status message with appropriate styling based on the type (success or error)
 function showFormStatus(message, type) {
     formStatus.textContent = message;
     formStatus.classList.remove("success", "error");
     formStatus.classList.add(type);
 }
 
+// Add event listeners for real-time validation and form submission
 fullName.addEventListener("input", validateFullName);
 idNumber.addEventListener("input", validateIdNumber);
 contactNumber.addEventListener("input", validateContactNumber);
 username.addEventListener("input", validateUsername);
 
+// Update password rules and validate password on input, and also validate confirm password if it has a value
 password.addEventListener("input", () => {
     updatePasswordRules();
     validatePassword();
@@ -187,8 +201,10 @@ password.addEventListener("input", () => {
     }
 });
 
+// Validate confirm password on input to ensure it matches the password field
 confirmPassword.addEventListener("input", validateConfirmPassword);
 
+// Add toggle functionality for showing/hiding password fields
 document.querySelectorAll(".toggle-password").forEach(button => {
     button.addEventListener("click", () => {
         const targetId = button.getAttribute("data-target");
@@ -204,6 +220,7 @@ document.querySelectorAll(".toggle-password").forEach(button => {
     });
 });
 
+// Validate the form on submission and prevent submission if there are validation errors
 form.addEventListener("submit", function (event) {
     clearFormStatus();
 

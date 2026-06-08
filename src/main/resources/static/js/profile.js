@@ -4,6 +4,7 @@ const username = document.getElementById("username");
 const contactNumber = document.getElementById("contactNumber");
 const formStatus = document.getElementById("formStatus");
 
+// Set an error message and styling for a specific input field
 function setError(input, message) {
     const errorElement = document.getElementById(input.id + "Error");
     if (errorElement) {
@@ -12,6 +13,7 @@ function setError(input, message) {
     input.classList.add("input-error");
 }
 
+// Clear error message and styling for a specific input field
 function clearError(input) {
     const errorElement = document.getElementById(input.id + "Error");
     if (errorElement) {
@@ -20,6 +22,7 @@ function clearError(input) {
     input.classList.remove("input-error");
 }
 
+// Validate the full name field to ensure it is not empty
 function validateFullName() {
     const value = fullName.value.trim();
 
@@ -32,6 +35,7 @@ function validateFullName() {
     return true;
 }
 
+// Validate the username field to ensure it is not empty and meets minimum length requirements
 function validateUsername() {
     const value = username.value.trim();
 
@@ -49,6 +53,7 @@ function validateUsername() {
     return true;
 }
 
+// Validate the contact number field to ensure it is not empty
 function validateContactNumber() {
     const value = contactNumber.value.trim();
 
@@ -61,12 +66,14 @@ function validateContactNumber() {
     return true;
 }
 
+// Clear the form status message and styling
 function clearFormStatus() {
     if (!formStatus) return;
     formStatus.textContent = "";
     formStatus.classList.remove("success", "error");
 }
 
+// Display a form status message with appropriate styling based on the type (success or error)
 function showFormStatus(message, type) {
     if (!formStatus) return;
     formStatus.textContent = message;
@@ -74,10 +81,12 @@ function showFormStatus(message, type) {
     formStatus.classList.add(type);
 }
 
+// Add event listeners for real-time validation and form submission
 fullName.addEventListener("input", validateFullName);
 username.addEventListener("input", validateUsername);
 contactNumber.addEventListener("input", validateContactNumber);
 
+// Validate the form on submission and prevent submission if there are validation errors
 profileForm.addEventListener("submit", function (event) {
     clearFormStatus();
 
